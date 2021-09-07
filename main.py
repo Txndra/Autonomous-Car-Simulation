@@ -2,18 +2,36 @@
 #Project start 23/07/21
 #Project end TBA
 #Autonomous car simulation using neural networks and pygame
-import pygame as py
-import sys
+import math
+import numpy
 import random
+import sys
+import os
+
+import pygame
+
 import tkinter as tk
 import tkinter.font as tkFont
-import numpy
 
-def com1():
-    pass
+#Early August update: 03/08/2021
+#Design menu created. Imports imported.
+#Quit function completed
+#Map Design function started
 
-def com2():
-    pass
+def MapDesign():
+    directory = "C:\WINDOWS\system32\mspaint.exe"
+    os.startfile(directory)
+    #os.system(directory)
+    message = tk.Label(
+        text = "When you have made your map, save it in the file 'AUTONOMOUS CARSIM'"
+        )   
+    message.pack()
+    
+
+def Simulation():
+    directory = r"C:\Users\sdgam\OneDrive\Documents\AUTONOMOUS CARSIM\car.py"
+    os.startfile(directory)
+    
 
 def com3():
     pass
@@ -30,45 +48,53 @@ def displayMenu():
 
     title.pack()
     
+    #Map Design option
+    
     askMapDesign = tk.Button(
-        text="Design a map",
-        width=25,
-        height=5,
-        bg="black",
-        fg="white",
+        text = "DESIGN A MAP",
+        width = 80,
+        height = 5,
+        bg = "black",
+        fg = "white", command = MapDesign
         
     )
 
     askMapDesign.pack()
-    
+
+    #Add Obstacles option
+
+    askObstacles = tk.Button(
+        text = "ADD/REMOVE OBSTACLES",
+        width = 80,
+        height = 5,
+        bg = "black",
+        fg = "white",
+    )
+
+    askObstacles.pack()
+                             
+
+    #Run Simulation option
+
     askRunSim = tk.Button(
-        text="Run simulation",
-        width=25,
-        height=5,
-        bg="black",
-        fg="white",
+        text = "RUN SIMULATION",
+        width = 80,
+        height = 5,
+        bg = "black",
+        fg = "white", command = Simulation
         
     )
 
     askRunSim.pack()
-    
-    askViewStats = tk.Button(
-        text="View stats",
-        width=25,
-        height=5,
-        bg="black",
-        fg="white",
-        
-    )
-    
-    askViewStats.pack()
+
+    #Quit option
     
     askQuit = tk.Button(
-        text="Quit",
-        width=25,
-        height=5,
-        bg="black",
-        fg="white", command=quit
+        text = "QUIT",
+        width = 80,
+        height = 5,
+        bg = "black",
+        fg = "white", command=quit
        
     )
     
