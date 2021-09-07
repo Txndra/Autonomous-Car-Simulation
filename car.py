@@ -1,113 +1,143 @@
-import pygame
 import math
+import random
+import sys
+import os
 
-screen_width = 1500
-screen_height = 800
+import neat
+import pygame
 
+WIDTH = 1500
+HEIGHT = 800
+
+carWidth = 60
+carHeight = 60
+
+white = (255,255,255,255) #If car touches this colour it will crash
+green = (0,255,0) #For drawing radars
+
+generation = 0
 
 class Car:
     def __init__(self):
-        self.surface = pygame.image.load("car.png")
-        self.surface = pygame.transform.scale(self.surface, (100, 100))
-        self.rotate_surface = self.surface
-        self.pos = [700, 650]
+        self.sprite = pygame.image.load(car.png).convert()
+        self.sprite = pygame.transfom.scale(self.sprite, (carWidth, carHeight))
+        self.rotated = self.sprite
+
+        self.position = [700,650] #Starting position not determined yet
         self.angle = 0
         self.speed = 0
-        self.center = [self.pos[0] + 50, self.pos[1] + 50]
-        self.radars = []
-        self.radars_for_draw = []
-        self.is_alive = True
-        self.goal = False
-        self.distance = 0
-        self.time_spent = 0
+
+        self.speed_set = False
+
+        self.center = [self.position[0]+ carWIdth/2, self.position[1] + carHeight/2]
+
+        self.radars = [] 
+        self.drawing_radars = []
+
+        self.isAlive = True
+
+        self.distance = 0 #Distance travelled
+        self.time = 0 #Time elapsed
 
     def draw(self, screen):
-        screen.blit(self.rotate_surface, self.pos)
+        screen.blit(self.rotated, self.position) #Blit pygame function draws the sprite on the screen
         self.draw_radar(screen)
 
     def draw_radar(self, screen):
-        for r in self.radars:
-            pos, dist = r
-            pygame.draw.line(screen, (0, 255, 0), self.center, pos, 1)
-            pygame.draw.circle(screen, (0, 255, 0), pos, 5)
+        for radar in self.radars:
+            position = radar[0]
+            pygame.draw.line(screen, (0, 255, 0), self.center, position, 1)
+            pygame.draw.circle(screen, (0, 255, 0), position, 5)
 
-    def check_collision(self, map):
-        self.is_alive = True
-        for p in self.four_points:
-            if map.get_at((int(p[0]), int(p[1]))) == (255, 255, 255, 255):
-                self.is_alive = False
+    def collision(self, track):
+        self.isAlive = True
+        for i in self.corners: #For each point on the map
+            if track.get_at((int(point[0]), int(point[1]))) == white: #get_at gets the colour value of a single point.
+                self.isAlive = False #If this colour value is white, the car will crash.
                 break
 
-    def check_radar(self, degree, map):
-        len = 0
-        x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + degree))) * len)
-        y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * len)
 
-        while not map.get_at((x, y)) == (255, 255, 255, 255) and len < 300:
-            len = len + 1
-            x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + degree))) * len)
-            y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * len)
+    def check_radar(self, degree, track):
+        length = 0
+        x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + degree))) * length)
+        y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * length)
 
-        dist = int(math.sqrt(math.pow(x - self.center[0], 2) + math.pow(y - self.center[1], 2)))
-        self.radars.append([(x, y), dist])
+        while not track.get_at((x, y)) == white and length < 300: #While the car has not hit the edge of the track, the length will increase by 1 which allows it to go further
+            length = length + 1
+            x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + degree))) * length)
+            y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * length)
 
-    def update(self, map):
-        # check speed
-        self.speed = 7
+        distanceToBorder = int(math.sqrt(math.pow(x - self.center[0], 2) + math.pow(y - self.center[1], 2))) #Calculates distance to the edge
+        self.radars.append([(x, y), dist]) #Appends this distance to the radars (the distance is used as an input in the neural network)
 
-        # check position
-        self.rotate_surface = self.rot_center(self.surface, self.angle)
-        self.pos[0] += math.cos(math.radians(360 - self.angle)) * self.speed
-        if self.pos[0] < 20:
-            self.pos[0] = 20
-        elif self.pos[0] > screen_width - 120:
-            self.pos[0] = screen_width - 120
+    def update(self, track):
+        if not self.speed_set:
+            self.speed = 20
+            self.speed_set = True
 
-        self.distance += self.speed
-        self.time_spent += 1
-        self.pos[1] += math.sin(math.radians(360 - self.angle)) * self.speed
-        if self.pos[1] < 20:
-            self.pos[1] = 20
-        elif self.pos[1] > screen_height - 120:
-            self.pos[1] = screen_height - 120
+        self.rotated = self.rotate_center(self.sprite, self.angle)
+        self.position[0] += math.cos(math.radians(360 - self.angle)) * self.speed
+        self.position[0] = max(self.position[0], 20) #Doesn't let car get closer to 20 pixels of distance away from the edge of the track
+        self.position[0] = min(self.position[0], WIDTH - 120)
 
-        # caculate 4 collision points
-        self.center = [int(self.pos[0]) + 50, int(self.pos[1]) + 50]
-        len = 40
-        left_top = [self.center[0] + math.cos(math.radians(360 - (self.angle + 30))) * len,
-                    self.center[1] + math.sin(math.radians(360 - (self.angle + 30))) * len]
-        right_top = [self.center[0] + math.cos(math.radians(360 - (self.angle + 150))) * len,
-                     self.center[1] + math.sin(math.radians(360 - (self.angle + 150))) * len]
-        left_bottom = [self.center[0] + math.cos(math.radians(360 - (self.angle + 210))) * len,
-                       self.center[1] + math.sin(math.radians(360 - (self.angle + 210))) * len]
-        right_bottom = [self.center[0] + math.cos(math.radians(360 - (self.angle + 330))) * len,
-                        self.center[1] + math.sin(math.radians(360 - (self.angle + 330))) * len]
-        self.four_points = [left_top, right_top, left_bottom, right_bottom]
+        self.distance += self.speed #Increases distance
+        self.time += 1 #Increases time
+        
+        
+        self.position[1] += math.sin(math.radians(360 - self.angle)) * self.speed #Same as above but for Y position
+        self.position[1] = max(self.position[1], 20)
+        self.position[1] = min(self.position[1], WIDTH - 120)
 
-        self.check_collision(map)
-        self.radars.clear()
-        for d in range(-90, 120, 45):
-            self.check_radar(d, map)
+       
+        self.center = [int(self.position[0]) + carWidth/2, int(self.position[1]) + carHeight/2] #center changed
 
-    def get_data(self):
+        # Calculates four corners
+        # Length = 1/2 the side
+        length = 0.5 * CAR_SIZE_X
+        left_top = [self.center[0] + math.cos(math.radians(360 - (self.angle + 30))) * length, self.center[1] + math.sin(math.radians(360 - (self.angle + 30))) * length]
+        right_top = [self.center[0] + math.cos(math.radians(360 - (self.angle + 150))) * length, self.center[1] + math.sin(math.radians(360 - (self.angle + 150))) * length]
+        left_bottom = [self.center[0] + math.cos(math.radians(360 - (self.angle + 210))) * length, self.center[1] + math.sin(math.radians(360 - (self.angle + 210))) * length]
+        right_bottom = [self.center[0] + math.cos(math.radians(360 - (self.angle + 330))) * length, self.center[1] + math.sin(math.radians(360 - (self.angle + 330))) * length]
+        self.corners = [left_top, right_top, left_bottom, right_bottom]
+
+       
+        self.collision(track) #Checks for collisions
+        self.radars.clear() #Clears radars
+
+        for i in range(-90, 120, 45):
+            self.check_radar(i, track) #Every 45 degrees from -90 to 120 it checks the radar.
+
+    def grabData(self):
         radars = self.radars
-        ret = [0, 0, 0, 0, 0]
-        for i, r in enumerate(radars):
-            ret[i] = int(r[1] / 30)
+        radar_values = [0,0,0,0,0]
+        for i, j in enumerate(radars):
+            radar_values[i] = int(j[1]/30)
+        return radar_values
 
-        return ret
-
-    def get_alive(self):
-        return self.is_alive
+    def alive(self):
+        return self.isAlive
 
     def get_reward(self):
-        return self.distance / 50.0
+        return self.distance/50
 
-    def rot_center(self, image, angle):
-        orig_rect = image.get_rect()
-        rot_image = pygame.transform.rotate(image, angle)
-        rot_rect = orig_rect.copy()
-        rot_rect.center = rot_image.get_rect().center
-        rot_image = rot_image.subsurface(rot_rect).copy()
-        return rot_image
+    def rotate_center(self, image, angle):
+        # Rotate The Rectangle
+        rectangle = image.get_rect()
+        rotated_image = pygame.transform.rotate(image, angle)
+        rotated_rectangle = rectangle.copy()
+        rotated_rectangle.center = rotated_image.get_rect().center
+        rotated_image = rotated_image.subsurface(rotated_rectangle).copy()
+        return rotated_image
+
+    
+    
+
+        
+
+    
+    
+            
+            
+        
+
 
