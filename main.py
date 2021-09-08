@@ -29,7 +29,7 @@ def MapDesign():
     
 
 def Simulation():
-    directory = r"C:\Users\sdgam\OneDrive\Documents\AUTONOMOUS CARSIM\car.py"
+    directory = r"C:\Users\sdgam\OneDrive\Documents\AUTONOMOUS CARSIM\A-Level-NEA---Autonomous-Car\car.py"
     os.startfile(directory)
     
 
