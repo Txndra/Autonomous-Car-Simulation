@@ -5,9 +5,9 @@ import os
 
 import neat
 import pygame
+from pygame.locals import *
 
 
-pygame.init()
 WIDTH = 1920
 HEIGHT = 1080
 
@@ -133,6 +133,12 @@ class Car:
 
 
 
-#hi
+
+pygame.init()
+screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
+clock = pygame.time.Clock()
+track = pygame.image.load('map.png').convert()
+
+
 
 
