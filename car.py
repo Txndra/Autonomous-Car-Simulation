@@ -132,10 +132,7 @@ class Car:
         return rotated_image
 
 
-        
-        
-                
-                
-        
+
+Car.draw
 
 
