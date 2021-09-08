@@ -6,8 +6,10 @@ import os
 import neat
 import pygame
 
-WIDTH = 1500
-HEIGHT = 800
+
+pygame.init()
+WIDTH = 1920
+HEIGHT = 1080
 
 carWidth = 60
 carHeight = 60
@@ -19,7 +21,7 @@ generation = 0
 
 class Car:
     def __init__(self):
-        self.sprite = pygame.image.load(car.png).convert()
+        self.sprite = pygame.image.load(r"C:\Users\sdgam\OneDrive\Documents\AUTONOMOUS CARSIM\A-Level-NEA---Autonomous-Car\car.png").convert()
         self.sprite = pygame.transfom.scale(self.sprite, (carWidth, carHeight))
         self.rotated = self.sprite
 
@@ -29,7 +31,7 @@ class Car:
 
         self.speed_set = False
 
-        self.center = [self.position[0]+ carWIdth/2, self.position[1] + carHeight/2]
+        self.center = [self.position[0]+ carWidth/2, self.position[1] + carHeight/2]
 
         self.radars = [] 
         self.drawing_radars = []
@@ -52,7 +54,7 @@ class Car:
     def collision(self, track):
         self.isAlive = True
         for i in self.corners: #For each point on the map
-            if track.get_at((int(point[0]), int(point[1]))) == white: #get_at gets the colour value of a single point.
+            if track.get_at((int(i[0]), int(i[1]))) == white: #get_at gets the colour value of a single point.
                 self.isAlive = False #If this colour value is white, the car will crash.
                 break
 
@@ -68,7 +70,7 @@ class Car:
             y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * length)
 
         distanceToBorder = int(math.sqrt(math.pow(x - self.center[0], 2) + math.pow(y - self.center[1], 2))) #Calculates distance to the edge
-        self.radars.append([(x, y), dist]) #Appends this distance to the radars (the distance is used as an input in the neural network)
+        self.radars.append([(x, y), distanceToBorder]) #Appends this distance to the radars (the distance is used as an input in the neural network)
 
     def update(self, track):
         if not self.speed_set:
@@ -93,7 +95,7 @@ class Car:
 
         # Calculates four corners
         # Length = 1/2 the side
-        length = 0.5 * CAR_SIZE_X
+        length = 0.5 * carWidth
         left_top = [self.center[0] + math.cos(math.radians(360 - (self.angle + 30))) * length, self.center[1] + math.sin(math.radians(360 - (self.angle + 30))) * length]
         right_top = [self.center[0] + math.cos(math.radians(360 - (self.angle + 150))) * length, self.center[1] + math.sin(math.radians(360 - (self.angle + 150))) * length]
         left_bottom = [self.center[0] + math.cos(math.radians(360 - (self.angle + 210))) * length, self.center[1] + math.sin(math.radians(360 - (self.angle + 210))) * length]
@@ -129,15 +131,8 @@ class Car:
         rotated_image = rotated_image.subsurface(rotated_rectangle).copy()
         return rotated_image
 
-    
-    
 
-        
 
-    
-    
-            
-            
-        
+Car.draw
 
 
