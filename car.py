@@ -133,6 +133,6 @@ class Car:
 
 
 
-Car.draw
+
 
 
