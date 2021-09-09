@@ -135,8 +135,36 @@ class Car:
 
 
 pygame.init()
-pygame.display.set_mode((800,600))
-pygame.image.load(r"C:\Users\sdgam\OneDrive\Documents\AUTONOMOUS CARSIM\A-Level-NEA---Autonomous-Car\map1.png").convert()
+display = pygame.display.set_mode((800,600))
+track = pygame.image.load(r"C:\Users\sdgam\OneDrive\Documents\AUTONOMOUS CARSIM\A-Level-NEA---Autonomous-Car\map1.png").convert()
+while True :
+  
+    # completely fill the surface object
+    # with white colour
+    display.fill(white)
+  
+    # copying the image surface object
+    # to the display surface object at
+    # (0, 0) coordinate.
+    display.blit(track, (0, 0))
+
+    # iterate over the list of Event objects
+    # that was returned by pygame.event.get() method.
+    for event in pygame.event.get() :
+  
+        # if event object type is QUIT
+        # then quitting the pygame
+        # and program both.
+        if event.type == pygame.QUIT :
+  
+            # deactivates the pygame library
+            pygame.quit()
+  
+            # quit the program.
+            quit()
+  
+        # Draws the surface object to the screen.  
+        pygame.display.update()
 
 
 
