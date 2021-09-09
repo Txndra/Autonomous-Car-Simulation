@@ -25,7 +25,7 @@ class Car:
         self.sprite = pygame.transfom.scale(self.sprite, (carWidth, carHeight))
         self.rotated = self.sprite
 
-        self.position = [700,650] #Starting position not determined yet
+        self.position = [303,138] #Starting position not determined yet
         self.angle = 0
         self.speed = 0
 
@@ -135,6 +135,9 @@ class Car:
 
 
 pygame.init()
+pygame.display.set_mode((800,600))
+pygame.image.load(r"C:\Users\sdgam\OneDrive\Documents\AUTONOMOUS CARSIM\A-Level-NEA---Autonomous-Car\map1.png").convert()
+
 
 
 
