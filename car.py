@@ -12,7 +12,7 @@ WIDTH = 1920
 HEIGHT = 1080
 
 carWidth = 60
-carHeight = 60
+carHeight = 60 
 
 white = (255,255,255,255) #If car touches this colour it will crash
 green = (0,255,0) #For drawing radars
@@ -25,7 +25,7 @@ class Car:
         self.sprite = pygame.transfom.scale(self.sprite, (carWidth, carHeight))
         self.rotated = self.sprite
 
-        self.position = [303,138] #Starting position not determined yet
+        self.position = (0,0) #Starting position not determined yet
         self.angle = 0
         self.speed = 0
 
@@ -124,11 +124,11 @@ class Car:
 
     def rotate_center(self, image, angle):
         # Rotate The Rectangle
-        rectangle = image.get_rect()
+        rect = image.get_rect()
         rotated_image = pygame.transform.rotate(image, angle)
-        rotated_rectangle = rectangle.copy()
-        rotated_rectangle.center = rotated_image.get_rect().center
-        rotated_image = rotated_image.subsurface(rotated_rectangle).copy()
+        rotated_rect = rect.copy()
+        rotated_rect.center = rotated_image.get_rect().center
+        rotated_image = rotated_image.subsurface(rotated_rect).copy()
         return rotated_image
 
 
@@ -148,6 +148,8 @@ while True :
     # (0, 0) coordinate.
     display.blit(track, (0, 0))
 
+
+
     # iterate over the list of Event objects
     # that was returned by pygame.event.get() method.
     for event in pygame.event.get() :
@@ -165,7 +167,6 @@ while True :
   
         # Draws the surface object to the screen.  
         pygame.display.update()
-
 
 
 
