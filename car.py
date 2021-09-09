@@ -135,9 +135,7 @@ class Car:
 
 
 pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
-clock = pygame.time.Clock()
-track = pygame.image.load('map.png').convert()
+
 
 
 
