@@ -16,14 +16,11 @@ class Map:
         messageBox = tk.Tk()
         sizeMessage = tk.Label(
         text = "ENTER MAP SIZE",
-        fontStyle = tkinterValues.useFont
         )
         getWidth = tk.Entry(messageBox)
         sizeMessage.pack()
         getWidth.pack()
-
-
-Map.getSize()
+        messageBox.mainloop()
 
 
 
