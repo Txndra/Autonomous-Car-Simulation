@@ -15,9 +15,7 @@ import tkinter.font as tkFont
 #Quit function completed
 #Map Design function started
 
-def MapDesign():
-    directory = r"C:\Users\sdgam\OneDrive\Documents\AUTONOMOUS CARSIM\A-Level-NEA---Autonomous-Car\MapDesign.py"
-    os.startfile(directory)
+
     
 
 def Simulation():
@@ -47,7 +45,7 @@ def displayMenu():
         width = 80,
         height = 5,
         bg = "black",
-        fg = "white", command = MapDesign
+        fg = "white"
         
     )
 
@@ -95,5 +93,6 @@ def displayMenu():
     window.mainloop()
 
 displayMenu()
+
 
 
