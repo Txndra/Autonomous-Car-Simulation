@@ -2,6 +2,7 @@
 #Project start 23/07/21
 #Project end TBA
 #Autonomous car simulation using neural networks and pygame
+
 import sys
 import os
 
@@ -13,12 +14,6 @@ import tkinter.font as tkFont
 #Design menu created. Imports imported.
 #Quit function completed
 #Map Design function started
-class tkinterValues:
-    def __init__(self):
-        self.fontStyle = tkFont.Font(family="Lucida Grande", size=20)
-
-    def useFont(self):
-        return self.fontStyle
 
 def MapDesign():
     directory = r"C:\Users\sdgam\OneDrive\Documents\AUTONOMOUS CARSIM\A-Level-NEA---Autonomous-Car\MapDesign.py"
@@ -35,7 +30,7 @@ def com3():
 
 def displayMenu():
     window = tk.Tk()
-    fontStyle = tkinterValues.useFont
+    fontStyle = tkFont.Font(family="Lucida Grande", size=20)
     title = tk.Label(
         text = "Welcome to Sean's Autonomous Car Simulation",
         foreground = "black",
