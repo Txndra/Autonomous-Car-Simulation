@@ -11,7 +11,7 @@ from Stack import Stack
 
 class userButtons:
     trackColour = (51,255,51)
-    wallColour = (0,0,204)
+    wallColour = (255,0,0)
     buttonCount = 0
     startup = False
     currentStack = None
