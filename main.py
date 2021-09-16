@@ -67,8 +67,8 @@ class Application(tk.Frame):
     def createMap(self):
         root = tk.Tk()
         try:
-            MapDesign.createMap(int(self.rowInput.get()),int(self.columnInput.get()), master = root) #Grabs values and creates a window
-        except:
+            MapDesign.MapCreation(int(self.rowInput.get()),int(self.columnInput.get()), master = root) #Grabs values and creates a window
+        except ValueError:
             root.withdraw() #Doesn't show the window
             messagebox.showinfo("Entry error", "Please retry entering values") #messagebox shows message for error
 
