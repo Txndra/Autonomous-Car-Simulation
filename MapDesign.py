@@ -6,7 +6,8 @@ import pickle
 
 
 
-
+class createMap():
+    pass
 
 
 
