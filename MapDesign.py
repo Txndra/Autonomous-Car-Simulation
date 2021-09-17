@@ -4,6 +4,7 @@ from tkinter.filedialog import asksaveasfile
 from tkinter import messagebox
 import pickle
 import os
+from typing import Type
 from Stack import Stack 
 
 
@@ -92,17 +93,21 @@ class MapCreation(tk.Frame):
             userButtons.startup = True
 
     def undo(self):
-        returnVal = userButtons.currentStack.pop()
-        for x in returnVal:
-            tileType = x[0] #This will return the button type
-            tileID = int(x[1:]) #This shows the ID
+        try:
+        
+            returnVal = userButtons.currentStack.pop()
+            for x in returnVal:
+                tileType = x[0] #This will return the button type
+                tileID = int(x[1:]) #This shows the ID
 
-            if tileType == 'W':
-                self.buttons[tileID].makeWall()
-            elif tileType == 'T':
-                self.buttons[tileID].makeTrack()
-            elif tileType == 'W':
-                self.buttons[tileID].pickStart()
+                if tileType == 'W':
+                    self.buttons[tileID].makeWall()
+                elif tileType == 'T':
+                    self.buttons[tileID].makeTrack()
+                elif tileType == 'W':
+                    self.buttons[tileID].pickStart()
+        except TypeError:
+            messagebox.showinfo("Cannot undo","You can't undo nothing !!!")
 
     def clearMap(self):
         status = []
