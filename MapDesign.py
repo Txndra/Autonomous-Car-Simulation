@@ -76,8 +76,8 @@ class MapCreation(tk.Frame):
 
         startButton = tk.Button(optionsFrame, text = 'PICK START TILE', command = self.startButton).grid(row = 0, column = 0)
         undoButton = tk.Button(optionsFrame, text = 'UNDO', command = self.undo).grid(row = 0, column = 1)
-        clearButton = tk.Button(optionsFrame, text = 'CLEAR ALL', command = self.cleaMap).grid(row = 0 , column = 2)
-        saveButton = tk.Button(optionsFrame, text = 'SAVE', command = self.saveMap).grid(row = 0 , column = 3)
+        clearButton = tk.Button(optionsFrame, text = 'CLEAR ALL', command = self.clearMap).grid(row = 1 , column = 0)
+        saveButton = tk.Button(optionsFrame, text = 'SAVE', command = self.saveMap).grid(row = 1 , column = 0)
 
         #Some options for creating the map
         
