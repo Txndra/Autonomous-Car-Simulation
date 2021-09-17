@@ -6,6 +6,7 @@ import os
 import neat
 import pygame
 from pygame.locals import *
+from pygame import transform
 
 
 WIDTH = 800
@@ -21,8 +22,9 @@ generation = 0
 
 class Car:
     def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
         self.sprite = pygame.image.load(r"C:\Users\sdgam\OneDrive\Documents\AUTONOMOUS CARSIM\A-Level-NEA---Autonomous-Car\car.png").convert()
-        self.sprite = pygame.transfom.scale(self.sprite, (carWidth, carHeight))
+        self.sprite = pygame.transform.scale(self.sprite, (carWidth, carHeight))
         self.rotated = self.sprite
 
         self.position = (0,0) #Starting position not determined yet
