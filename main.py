@@ -13,7 +13,7 @@ import tkinter.font as tkFont
 from tkinter.filedialog import askopenfilename
 import pickle
 import MapDesign
-from car import Car
+from car import run_simulation
 
 
 #Early August update: 03/08/2021
@@ -41,7 +41,7 @@ class Application(tk.Frame):
             font = self.fontStyle
         ).pack(side = 'top')
         self.designMap = tk.Button(self, text = 'DESIGN A MAP', font = self.fontStyle, bg = 'black', fg = 'white', command = self.getMapinfo).pack(side = 'top')
-        self.runSimulation = tk.Button(self, text = 'RUN SIMULATION', font = self.fontStyle, bg = 'black', fg = 'white', command = self.getSiminfo).pack(side = 'top')
+        self.runSimulation = tk.Button(self, text = 'RUN SIMULATION', font = self.fontStyle, bg = 'black', fg = 'white', command = runSim).pack(side = 'top')
         self.obstacles = tk.Button(self, text = 'ADD/REMOVE OBSTACLES', font = self.fontStyle, bg = 'black', fg = 'white', command = self.getObstacles).pack(side = 'top')
         self.quit = tk.Button(self, text = 'QUIT', font = self.fontStyle, bg = 'black', fg = 'white', command = self.master.destroy).pack(side = 'bottom')
 
@@ -79,6 +79,11 @@ class Application(tk.Frame):
 
     def getObstacles(self):
         pass
+
+    
+
+def runSim():
+        exec(open(r"C:\Users\sdgam\OneDrive\Documents\AUTONOMOUS CARSIM\A-Level-NEA---Autonomous-Car\A-Level-NEA---Autonomous-Car\car.py").read())
 
     
 

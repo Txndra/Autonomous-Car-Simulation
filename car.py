@@ -8,8 +8,8 @@ import pygame
 from pygame.locals import *
 
 
-WIDTH = 1920
-HEIGHT = 1080
+WIDTH = 800
+HEIGHT = 600
 
 carWidth = 60
 carHeight = 60 
@@ -140,10 +140,11 @@ def run_simulation(genomes, config):
     # Empty Collections For Nets and Cars
     nets = []
     cars = []
-
+    global WIDTH
+    global HEIGHT 
     # Initialize PyGame And The Display
     pygame.init()
-    screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
     # For All Genomes Passed Create A New Neural Network
     for i, g in genomes:
@@ -158,7 +159,7 @@ def run_simulation(genomes, config):
     clock = pygame.time.Clock()
     generation_font = pygame.font.SysFont("Arial", 30)
     alive_font = pygame.font.SysFont("Arial", 20)
-    game_map = pygame.image.load('map.png').convert() # Convert Speeds Up A Lot
+    track = pygame.image.load(r"C:\Users\sdgam\OneDrive\Documents\AUTONOMOUS CARSIM\A-Level-NEA---Autonomous-Car\A-Level-NEA---Autonomous-Car\map1.png").convert() # Convert Speeds Up A Lot
 
     global generation
     generation += 1
@@ -192,7 +193,7 @@ def run_simulation(genomes, config):
         for i, car in enumerate(cars):
             if car.is_alive():
                 still_alive += 1
-                car.update(game_map)
+                car.update(track)
                 genomes[i][1].fitness += car.get_reward()
 
         if still_alive == 0:
@@ -203,7 +204,7 @@ def run_simulation(genomes, config):
             break
 
         # Draw Map And All Cars That Are Alive
-        screen.blit(game_map, (0, 0))
+        screen.blit(track, (0, 0))
         for car in cars:
             if car.isAlive():
                 car.draw(screen)
