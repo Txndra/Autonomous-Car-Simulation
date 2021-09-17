@@ -14,8 +14,8 @@ HEIGHT = 1080
 carWidth = 60
 carHeight = 60 
 
-white = (255,255,255,255) #If car touches this colour it will crash
-green = (0,255,0) #For drawing radars
+wallColour = (255,0,0) #If car touches this colour it will crash
+blue = (0,0,255) #For drawing radars
 
 generation = 0
 
@@ -48,14 +48,14 @@ class Car:
     def draw_radar(self, screen):
         for radar in self.radars:
             position = radar[0]
-            pygame.draw.line(screen, (0, 255, 0), self.center, position, 1)
-            pygame.draw.circle(screen, (0, 255, 0), position, 5)
+            pygame.draw.line(screen, (0, 0, 255), self.center, position, 1)
+            pygame.draw.circle(screen, (0, 0, 255), position, 5)
 
     def collision(self, track):
         self.isAlive = True
         for i in self.corners: #For each point on the map
-            if track.get_at((int(i[0]), int(i[1]))) == white: #get_at gets the colour value of a single point.
-                self.isAlive = False #If this colour value is white, the car will crash.
+            if track.get_at((int(i[0]), int(i[1]))) == wallColour: #get_at gets the colour value of a single point.
+                self.isAlive = False #If this colour value is wallColour, the car will crash.
                 break
 
 
@@ -64,7 +64,7 @@ class Car:
         x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + degree))) * length)
         y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * length)
 
-        while not track.get_at((x, y)) == white and length < 300: #While the car has not hit the edge of the track, the length will increase by 1 which allows it to go further
+        while not track.get_at((x, y)) == wallColour and length < 300: #While the car has not hit the edge of the track, the length will increase by 1 which allows it to go further
             length = length + 1
             x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + degree))) * length)
             y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * length)
