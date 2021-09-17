@@ -77,7 +77,7 @@ class MapCreation(tk.Frame):
         startButton = tk.Button(optionsFrame, text = 'PICK START TILE', command = self.startButton).grid(row = 0, column = 0)
         undoButton = tk.Button(optionsFrame, text = 'UNDO', command = self.undo).grid(row = 0, column = 1)
         clearButton = tk.Button(optionsFrame, text = 'CLEAR ALL', command = self.clearMap).grid(row = 1 , column = 0)
-        saveButton = tk.Button(optionsFrame, text = 'SAVE', command = self.saveMap).grid(row = 1 , column = 0)
+        saveButton = tk.Button(optionsFrame, text = 'SAVE', command = self.saveMap).grid(row = 1 , column = 1)
 
         #Some options for creating the map
         
@@ -95,7 +95,7 @@ class MapCreation(tk.Frame):
         returnVal = userButtons.currentStack.pop()
         for x in returnVal:
             tileType = x[0] #This will return the button type
-            tileID = x[1:] #This shows the ID
+            tileID = int(x[1:]) #This shows the ID
 
             if tileType == 'W':
                 self.buttons[tileID].makeWall()
@@ -105,10 +105,44 @@ class MapCreation(tk.Frame):
                 self.buttons[tileID].pickStart()
 
     def clearMap(self):
-        pass
+        status = []
+        for i in self.buttons:
+            status.append(i.buttonType + str(i.id))
+            i.buttonType = 'W'
+            i.Button.config(text = '', bg = userButtons.fromRGB(userButtons.wallColour))
+        userButtons.currentStack.push(status)
 
     def saveMap(self):
-        pass
+        startingID = -1
+        trackCount = 0
+        for i in self.buttons:
+            if i.buttonType == 'T':
+                trackCount += 1
+            elif i.buttonType == 'S':
+                startingID = trackCount
+                break
+        if startingID == -1:
+            messagebox.showinfo("","Add a start track before you save!")
+        else:
+            file = asksaveasfile(initialdir= os.getcwd() + '\\maps', mode='wb', defaultextension=".pkl")
+            if file is None:
+                return
+            mapRLE =''
+            counter = 0
+            currentType = self.buttons[0].buttonType
+            for i in self.buttons:
+                if i.buttonType == currentType:
+                    counter += 1
+                else:
+                    mapRLE += str(counter) + currentType
+                    if currentType == 'W':
+                        currentType = 'T'
+                    else:
+                        currentType = 'W'
+                    counter = 1
+            mapRLE += str(counter) + currentType
+            mapDictionary = {'rows':self.rows, 'columns':self.columns, 'data':mapRLE, 'startingID':startingID}
+            pickle.dump(mapDictionary, file) #saves file
 
 
 
