@@ -14,6 +14,9 @@ from tkinter.filedialog import askopenfilename
 import pickle
 import MapDesign
 from car import run_simulation
+from car import Car
+import neat
+from neat import nn
 
 
 #Early August update: 03/08/2021
