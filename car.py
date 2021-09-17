@@ -27,7 +27,7 @@ class Car:
         self.sprite = pygame.transform.scale(self.sprite, (carWidth, carHeight))
         self.rotated = self.sprite
 
-        self.position = (0,0) #Starting position not determined yet
+        self.position = [830,920] #Starting position not determined yet
         self.angle = 0
         self.speed = 0
 
@@ -80,7 +80,7 @@ class Car:
             self.speed_set = True
 
         self.rotated = self.rotate_center(self.sprite, self.angle)
-        self.position[0] += math.cos(math.radians(360 - self.angle)) * self.speed
+        self.position[0] += (math.cos(math.radians(360 - self.angle)) * self.speed)
         self.position[0] = max(self.position[0], 20) #Doesn't let car get closer to 20 pixels of distance away from the edge of the track
         self.position[0] = min(self.position[0], WIDTH - 120)
 
@@ -88,7 +88,7 @@ class Car:
         self.time += 1 #Increases time
         
         
-        self.position[1] += math.sin(math.radians(360 - self.angle)) * self.speed #Same as above but for Y position
+        self.position[1] += (math.sin(math.radians(360 - self.angle)) * self.speed) #Same as above but for Y position
         self.position[1] = max(self.position[1], 20)
         self.position[1] = min(self.position[1], WIDTH - 120)
 
@@ -138,7 +138,6 @@ class Car:
 
 
 def run_simulation(genomes, config):
-    
     # Empty Collections For Nets and Cars
     nets = []
     cars = []
@@ -193,7 +192,7 @@ def run_simulation(genomes, config):
         # Increase Fitness If Yes And Break Loop If Not
         still_alive = 0
         for i, car in enumerate(cars):
-            if car.is_alive():
+            if car.alive():
                 still_alive += 1
                 car.update(track)
                 genomes[i][1].fitness += car.get_reward()
@@ -208,7 +207,7 @@ def run_simulation(genomes, config):
         # Draw Map And All Cars That Are Alive
         screen.blit(track, (0, 0))
         for car in cars:
-            if car.isAlive():
+            if car.alive():
                 car.draw(screen)
         
         # Display Info
