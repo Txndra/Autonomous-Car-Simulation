@@ -82,13 +82,15 @@ class MapCreation(tk.Frame):
         saveButton = tk.Button(optionsFrame, text = 'SAVE', command = self.saveMap).grid(row = 1 , column = 1)
 
         messagebox.showinfo("Saving Map","If the map size is too big and you cannot see the save button, press 's' to save.")
+        self.checkKeyboardInput
 
         #Some options for creating the map
         
 
     def checkKeyboardInput(self):
-        if keyboard.read_key() == "s":
-            self.saveMap
+        while True:
+            if keyboard.read_key() == "s":
+                self.saveMap
 
 
 
