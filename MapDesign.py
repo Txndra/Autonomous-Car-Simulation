@@ -81,16 +81,21 @@ class MapCreation(tk.Frame):
         clearButton = tk.Button(optionsFrame, text = 'CLEAR ALL', command = self.clearMap).grid(row = 1 , column = 0)
         saveButton = tk.Button(optionsFrame, text = 'SAVE', command = self.saveMap).grid(row = 1 , column = 1)
 
-        messagebox.showinfo("Saving Map","If the map size is too big and you cannot see the save button, press 's' to save.")
-        self.checkKeyboardInput
+        messagebox.showinfo("Shortcuts","Press 's' to save map \nPress 't' to pick a start tile \nPress 'c' to clear map \nPress 'u' to undo")
+        while True:
+            if keyboard.read_key() == "s":
+                self.saveMap()
+            elif keyboard.read_key() == 't':
+                self.startButton()
+            elif keyboard.read_key() == 'c':
+                self.clearMap()
+            elif keyboard.read_key() == 'u':
+                self.undo()
 
         #Some options for creating the map
         
 
-    def checkKeyboardInput(self):
-        while True:
-            if keyboard.read_key() == "s":
-                self.saveMap
+        
 
 
 
