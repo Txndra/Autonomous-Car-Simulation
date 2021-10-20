@@ -156,7 +156,8 @@ def run_simulation(genomes, config):
     # Empty Collections For Nets and Cars
     nets = []
     cars = []
-
+    global WIDTH
+    global HEIGHT
     # Initialize PyGame And The Display
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
