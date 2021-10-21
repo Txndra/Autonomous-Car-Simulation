@@ -30,6 +30,7 @@ class Application(tk.Frame):
         tk.Frame.__init__(self, master)
         self.master = master
         self.pack()
+        self.mapDirectory = None
         self.Weights = None
         self.fontStyle = tkFont.Font(family="Lucida Grande", size=20)
         self.displayMenu()
@@ -44,7 +45,7 @@ class Application(tk.Frame):
             font = self.fontStyle
         ).pack(side = 'top')
         self.designMap = tk.Button(self, text = 'DESIGN A MAP', font = self.fontStyle, bg = 'black', fg = 'white', command = self.getMapinfo).pack(side = 'top')
-        self.runSimulation = tk.Button(self, text = 'RUN SIMULATION', font = self.fontStyle, bg = 'black', fg = 'white', command = runSim).pack(side = 'top')
+        self.runSimulation = tk.Button(self, text = 'RUN SIMULATION', font = self.fontStyle, bg = 'black', fg = 'white', command = self.getSiminfo).pack(side = 'top')
         self.obstacles = tk.Button(self, text = 'ADD/REMOVE OBSTACLES', font = self.fontStyle, bg = 'black', fg = 'white', command = self.getObstacles).pack(side = 'top')
         self.quit = tk.Button(self, text = 'QUIT', font = self.fontStyle, bg = 'black', fg = 'white', command = self.master.destroy).pack(side = 'bottom')
 
@@ -77,25 +78,55 @@ class Application(tk.Frame):
 
 
     def getSiminfo(self):
-        pass
-        
+        menuWindow = tk.Tk()
+        showMutation  = tk.Label(menuWindow, text = 'mutation level = ').pack(side = 'left')
+        self.mutationEntry = tk.Entry(menuWindow, bd = 5).pack(side = 'left')
+
+        selectMap = tk.Button(menuWindow, text = 'SELECT MAP', font = self.fontStyle, bg = 'black', fg = 'white', command = self.getMapfile).pack(side = 'bottom')
+        selectWeights = tk.Button(menuWindow, text = 'SELECT WEIGHTS FILE', font = self.fontStyle, bg = 'black', fg = 'white', command = self.loadWeights).pack(side = 'bottom')
+
+
+        startButton = tk.Button(menuWindow, text = 'START', command = self.runSimulation).pack(side = 'bottom')
+
+
 
     def getObstacles(self):
         pass
 
     
 
-def runSim():
-        exec(open(r"C:\Users\sdgam\OneDrive\Documents\AUTONOMOUS CARSIM\A-Level-NEA---Autonomous-Car\A-Level-NEA---Autonomous-Car\car.py").read())
+    def runSim():
+        pass
+
+    def loadWeights(self):
+        pass
+
+    def getMapfile(self):
+        file = askopenfilename(filetypes=(("PKL Files", "*.pkl"),))
+        try:
+            with open(file, 'rb') as pkl_file:
+                self.mapDirectory = pickle.load(pkl_file)
+        except:
+            messagebox.showinfo("Error", "File not found, try again")
+
+if __name__ == "__main__":
+    cwd = os.getcwd()
+    try: 
+        os.makedirs(cwd + '/weights')
+    except:
+        pass
+
+    try:
+        os.makedirs(cwd + '/maps')
+    except:
+        pass
 
     
+    root = tk.Tk()
+    app = Application(master = root)
+    app.mainloop()
 
 
-
-
-root = tk.Tk()
-app = Application(master = root)
-app.mainloop()
 
 
 
