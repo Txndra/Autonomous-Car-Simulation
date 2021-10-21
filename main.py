@@ -15,6 +15,7 @@ import pickle
 import MapDesign
 from car import run_simulation
 from car import Car
+from car import Simulation
 import neat
 from neat import nn
 
@@ -23,7 +24,7 @@ from neat import nn
 #Design menu created. Imports imported.
 #Quit function completed
 #Map Design function started
-
+EMPTY_STRING = ''
 
 class Application(tk.Frame):
     def __init__(self, master = None):
@@ -34,6 +35,7 @@ class Application(tk.Frame):
         self.Weights = None
         self.fontStyle = tkFont.Font(family="Lucida Grande", size=20)
         self.displayMenu()
+        global EMPTY_STRING
         
 
 
@@ -95,8 +97,26 @@ class Application(tk.Frame):
 
     
 
-    def runSim():
-        pass
+    def runSim(self):
+        mutation = self.mutationEntry.get()
+        if self.mapDirectory == None:
+            messagebox.showinfo("Map not selected","Please select a map before continuing!")
+        else:
+            try:
+                if mutation == EMPTY_STRING:
+                    raise TypeError
+                else:
+                    mutation = int(mutation)
+                    if 0 > mutation or 100 < mutation:
+                        raise ValueError
+                    else:
+                        newSimulation = Simulation(self.mapDirectory, mutation, self.Weights)
+            except ValueError:
+                messagebox.showinfo("ValueError", "Mutation entry must be an integer")
+                self.mutationEntry.delete(0,len(self.mutationEntry.get())) #Clears entry box
+            except TypeError:
+                messagebox.showinfo("","Invalid mutation level, Enter again")
+
 
     def loadWeights(self):
         pass
@@ -109,19 +129,21 @@ class Application(tk.Frame):
         except:
             messagebox.showinfo("Error", "File not found, try again")
 
+
+
 if __name__ == "__main__":
     cwd = os.getcwd()
     try: 
-        os.makedirs(cwd + '/weights')
+        os.makedirs(cwd + '/weights') #makes a weights folder
     except:
         pass
 
     try:
-        os.makedirs(cwd + '/maps')
+        os.makedirs(cwd + '/maps') #makes a map folder
     except:
         pass
 
-    
+
     root = tk.Tk()
     app = Application(master = root)
     app.mainloop()
