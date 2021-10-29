@@ -15,7 +15,7 @@ import pickle
 import MapDesign
 from car import run_simulation
 from car import Car
-from car import Simulation
+from simulation import Simulation
 import neat
 from neat import nn
 
@@ -95,7 +95,8 @@ class Application(tk.Frame):
     def getObstacles(self):
         pass
 
-    
+    def runSimulation():
+        pass
 
     def runSim(self):
         mutation = self.mutationEntry.get()
