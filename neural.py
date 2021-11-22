@@ -46,3 +46,5 @@ class Neural:
         return 1/(1 + np.exp(-x))
 
 
+instant = Neural()
+instant.calculateOutput()
