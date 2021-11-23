@@ -2,7 +2,7 @@
 import pygame
 from pygame.math import Vector2
 import math
-from CT import CT
+from CT import CT #imports coordinate toolkit from previous python file
 
 class radars:
     colour = (0, 255, 0) # green beams (by choice)
@@ -27,28 +27,35 @@ class radars:
         
     def show(self, SCR):
         try:
-            pygame.draw.aaline(SCR, radars.colour, self.startPoint, self.current, 1)
+            pygame.draw.aaline(SCR, radars.colour, self.startPoint, self.current, 1) #blits radars onto screen
         except:
             print('Must update then show beam to initialise length')
         
-    def rotateLine(self): #rotates radars by specified angle
+    def rotateLine(self): 
+        #rotates radars by specified angle
         self.current = self.startPoint + self.endPoint.rotate(self.angle)
 
     def calculateBorderIntersection(self, lines):
-        horizontalLines = lines[0]
-        verticalLines = lines[1]
+        horizontalLines = lines[0] #x values on cartesian plane
+        verticalLines = lines[1] #y values on cartesian plane
 
         smallestDistance = 1
         smallestIntersect = None
 
         for line in horizontalLines:
-            intersect = CT.getIntersectBetweenLineSegments((self.startPoint, self.current), ((line[0], line[2]), (line[1], line[2])))
+            intersect = CT.getIntersectBetweenLineSegments((self.startPoint, self.current), ((line[0], line[2]), (line[1], line[2]))) #finds point of intersection using CT class
             if intersect is not None:
-                distance = self.startPoint.distance_to(pygame.math.Vector2(intersect[0], intersect[1]))
+                distance = self.startPoint.distance_to(pygame.math.Vector2(intersect[0], intersect[1])) #finds distance between the intersect and the start point
                 if distance < smallestDistance: 
+<<<<<<< HEAD
                     smallestDistance = distance
                     smallestIntersect = intersect
+=======
+                    smallestDistance = distance #changes smallest distance accordingly
+                    smallestIntersect = intersect #changes intersect also
+>>>>>>> dede3565cdd1b7a21907adf7a5f0c5a985015df5
         for line in verticalLines:
+            #repeats the same thing but for vertical lines
             intersect = CT.getIntersectBetweenLineSegments((self.startPoint, self.current), ((line[2], line[0]), (line[2], line[1])))
             if intersect is not None:
                 distance = self.startPoint.distance_to(pygame.math.Vector2(intersect[0], intersect[1]))
@@ -57,6 +64,7 @@ class radars:
                     smallestIntersect = intersect
 
         try:
-            self.current = pygame.math.Vector2(smallestIntersect[0], smallestIntersect[1])
+            self.current = pygame.math.Vector2(smallestIntersect[0], smallestIntersect[1]) #Vector2 function defines a vector for the intersect (direction and magnitude)
         except:
             pass
+        #if there is no smallest intersect it will pass rather than stop the program.

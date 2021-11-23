@@ -4,5 +4,5 @@ from pygame.math import Vector2
 from radar import radars
 
 class Car:
-    beamAngles = [-45, 0, 45]
+    beamAngles = [-45, 0, 45] #angles for the car beams
     
