@@ -11,9 +11,8 @@ import tkinter as tk
 from tkinter import messagebox
 import tkinter.font as tkFont
 from tkinter.filedialog import askopenfilename
-import pickle
+import pickle #for saving map
 import MapDesign
-from car import run_simulation
 from car import Car
 from simulation import Simulation
 import neat
