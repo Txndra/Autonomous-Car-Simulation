@@ -1,5 +1,5 @@
 # A-Level-NEA---Autonomous-Car
-#bySirSecant
+#byStickyF
 .
 Project Background
 Autonomous cars or self-driving cars are vehicles that can sense their environment and react by moving safely with no human input. These do not require human input and allow them to get from one point to another without having to drive. It would require heavy application of artificial intelligence to program, particularly machine learning. Many car companies such as Waymo are working on developing these cars.

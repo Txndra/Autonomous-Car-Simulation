@@ -1,6 +1,6 @@
 #This program is used to create the radar beams
 import pygame
-from pygame import math
+from pygame.math import Vector2
 import math
 from CT import CT
 
@@ -47,14 +47,14 @@ class radars:
                 distance = self.startPoint.distance_to(pygame.math.Vector2(intersect[0], intersect[1]))
                 if distance < smallestDistance: 
                     smallestDistance = distance
-                    smallestDistance = intersect
+                    smallestIntersect = intersect
         for line in verticalLines:
             intersect = CT.getIntersectBetweenLineSegments((self.startPoint, self.current), ((line[2], line[0]), (line[2], line[1])))
             if intersect is not None:
                 distance = self.startPoint.distance_to(pygame.math.Vector2(intersect[0], intersect[1]))
                 if distance < smallestDistance:
                     smallestDistance = distance
-                    smallestDistance = intersect
+                    smallestIntersect = intersect
 
         try:
             self.current = pygame.math.Vector2(smallestIntersect[0], smallestIntersect[1])
