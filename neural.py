@@ -48,5 +48,3 @@ class Neural:
         return 1/(1 + np.exp(-x)) #this is the sigmoid function (returns values between 0 and 1). it is just a rescalement and translation of the hyperbolyc tan function so it ranges from 0 to 1
 
 
-instant = Neural()
-instant.calculateOutput()
