@@ -28,7 +28,7 @@ class Car:
         self.sprite = pygame.transform.scale(self.sprite, (CAR_SIZE_X, CAR_SIZE_Y))
         self.rotated_sprite = self.sprite 
 
-        # self.position = [690, 740] # Starting Position
+        #self.position = [690, 740] # Starting Position
         self.position = [830, 920] # Starting Position
         self.angle = 0
         self.speed = 0
@@ -175,7 +175,7 @@ def run_simulation(genomes, config):
     clock = pygame.time.Clock()
     generation_font = pygame.font.SysFont("Arial", 30)
     alive_font = pygame.font.SysFont("Arial", 20)
-    game_map = pygame.image.load('map1.png').convert() # Convert Speeds Up A Lot
+    game_map = pygame.image.load('map2.png').convert() # Convert Speeds Up A Lot
 
     global current_generation
     current_generation += 1
