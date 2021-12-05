@@ -5,18 +5,14 @@
 
 import sys
 import os
-
-import pygame
 import tkinter as tk
 from tkinter import messagebox
 import tkinter.font as tkFont
 from tkinter.filedialog import askopenfilename
 import pickle #for saving map
 import MapDesign
-from car import Car
 from simulation import Simulation
-import neat
-from neat import nn
+import threading #Trying to solve tkinter 'Not Responding' problem
 
 
 #Early August update: 03/08/2021
@@ -69,14 +65,17 @@ class Application(tk.Frame):
         sizeWindow.mainloop()
 
 
+
+
     def createMap(self):
+
         root = tk.Tk()
         try:
             MapDesign.MapCreation(int(self.rowInput.get()),int(self.columnInput.get()), master = root) #Grabs values and creates a window
         except ValueError:
             root.withdraw() #Doesn't show the window
             messagebox.showinfo("Entry error", "Please retry entering values") #messagebox shows message for error
-
+        
 
     def getSiminfo(self):
         menuWindow = tk.Tk()

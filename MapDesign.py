@@ -4,22 +4,21 @@ from tkinter.filedialog import asksaveasfile
 from tkinter import messagebox
 import pickle
 import os
-from typing import Type
 from Stack import Stack 
-import keyboard
+
 
 
 
 
 class userButtons:
-    trackColour = (51,255,51)
+    trackColour = (0,255,255)
     wallColour = (255,0,0)
     buttonCount = 0
     startup = False
     currentStack = None
 
     def __init__(self, r, c, win):
-        self.Button = tk.Button(win, bg = userButtons.fromRGB(userButtons.wallColour), command = self.changeColour, width = 6, height = 3)
+        self.Button = tk.Button(win, bg = userButtons.fromRGB(userButtons.wallColour), command = self.changeColour, width = 4, height = 2)
         self.Button.grid(row=r,column=c)
         self.buttonType = 'W'
         self.id = userButtons.buttonCount
@@ -69,7 +68,7 @@ class MapCreation(tk.Frame):
         optionsFrame.pack(side = 'bottom')
         #Creates a frame ready for options to be added
 
-        userButtons.currentStack = Stack(15)
+        userButtons.currentStack = Stack(50) #Allows last 5 changes to be undone
         for r in range(self.rows):
             for c in range(self.columns):
                 self.buttons.append(userButtons(r,c,mapFrame))
@@ -80,23 +79,6 @@ class MapCreation(tk.Frame):
         undoButton = tk.Button(optionsFrame, text = 'UNDO', command = self.undo).grid(row = 0, column = 1)
         clearButton = tk.Button(optionsFrame, text = 'CLEAR ALL', command = self.clearMap).grid(row = 1 , column = 0)
         saveButton = tk.Button(optionsFrame, text = 'SAVE', command = self.saveMap).grid(row = 1 , column = 1)
-
-        messagebox.showinfo("Shortcuts","Press 's' to save map \nPress 't' to pick a start tile \nPress 'c' to clear map \nPress 'u' to undo")
-        while True:
-            if keyboard.read_key() == "s":
-                self.saveMap()
-            elif keyboard.read_key() == 't':
-                self.startButton()
-            elif keyboard.read_key() == 'c':
-                self.clearMap()
-            elif keyboard.read_key() == 'u':
-                self.undo()
-
-        #Some options for creating the map
-        
-
-        
-
 
 
     def startButton(self):
@@ -124,7 +106,7 @@ class MapCreation(tk.Frame):
                 elif tileType == 'W':
                     self.buttons[tileID].pickStart()
         except TypeError:
-            messagebox.showinfo("Cannot undo","You can't undo nothing !!!")
+            messagebox.showinfo("Cannot undo","You can't undo anymore! ")
 
     def clearMap(self):
         status = []
