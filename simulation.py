@@ -65,7 +65,7 @@ class Simulation:
         SCREEN_H = pygame.display.Info().current_h
 
 
-        (self.W, self.H) = self.setWindowSize(MapDict, SCREEN_W-100, SCREEN_H-100)
+        (self.W, self.H) = (1920, 1080)
 
         self.SCR = pygame.display.set_mode((self.W, self.H))
         self.SCR.set_alpha(0)
@@ -76,7 +76,7 @@ class Simulation:
 
         #info section
         pygame.draw.rect(self.SCR, (220,220,220), (0, (self.H - Tile.getSize()), self.W - Tile.getSize()))
-        self.statsPane = statsBox(0, (self.H - Tile.getSize()), self.W - Tile.getSize())
+        #self.statsPane = statsBox(0, (self.H - Tile.getSize()), self.W - Tile.getSize())
 
 
         (self.walls, self.tracks) = Simulation.generateMap(MapDict)
@@ -119,13 +119,6 @@ class Simulation:
                 x += Tile.getsize()
         return (walls, tracks)
 
-    def setWindowSize(self, MapDict, devW, devH):
-        tileSize = 0
-        while tileSize*((MapDict["rows"] + 1)) < devH and tileSize*(MapDict["columns"]) < devW:
-            tileSize += 1
-        tileSize -= 1
-        Tile.setSize(tileSize)
-        return (tileSize * MapDict["columns"], tileSize * (MapDict["rows"] + 1))
 
 
 
