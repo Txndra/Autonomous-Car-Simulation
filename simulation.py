@@ -6,6 +6,7 @@ import pickle
 import os
 from tkinter.filedialog import asksaveasfile
 import re #regular expression
+from borderLineGenerator import BorderLineGenerator
 
 class Tile:
     __size = 10
@@ -65,7 +66,7 @@ class Simulation:
         SCREEN_H = pygame.display.Info().current_h
 
 
-        (self.W, self.H) = (1920, 1080)
+        (self.W, self.H) = self.setWindowSize(MapDict, (SCREEN_W - 100), (SCREEN_H - 100))
 
         self.SCR = pygame.display.set_mode((self.W, self.H))
         self.SCR.set_alpha(0)
@@ -76,7 +77,7 @@ class Simulation:
 
         #info section
         pygame.draw.rect(self.SCR, (220,220,220), (0, (self.H - Tile.getSize()), self.W - Tile.getSize()))
-        #self.statsPane = statsBox(0, (self.H - Tile.getSize()), self.W - Tile.getSize())
+        self.statsPane = statsBox(0, (self.H - Tile.getSize()), self.W - Tile.getSize())
 
 
         (self.walls, self.tracks) = Simulation.generateMap(MapDict)
@@ -118,11 +119,6 @@ class Simulation:
 
                 x += Tile.getsize()
         return (walls, tracks)
-
-
-
-
-yo = Simulation(r'C:\Users\sdgam\OneDrive\Documents\AUTONOMOUS CARSIM\A-Level-NEA---Autonomous-Car\maps\map1.pkl', 20, None)
 
     
 
