@@ -9,9 +9,10 @@ import tkinter as tk
 from tkinter import messagebox
 import tkinter.font as tkFont
 from tkinter.filedialog import askopenfilename
-import pickle #for saving map
+import pickle
+from typing import Type #for saving map
 import MapDesign
-from simulation import Simulation
+import simulation as sim
 import threading #Trying to solve tkinter 'Not Responding' problem
 
 
@@ -26,7 +27,7 @@ class Application(tk.Frame):
         tk.Frame.__init__(self, master)
         self.master = master
         self.pack()
-        self.mapDirectory = None
+        self.MapDict = None
         self.Weights = None
         self.fontStyle = tkFont.Font(family="Lucida Grande", size=20)
         self.displayMenu()
@@ -80,51 +81,57 @@ class Application(tk.Frame):
     def getSiminfo(self):
         menuWindow = tk.Tk()
         showMutation  = tk.Label(menuWindow, text = 'mutation level = ').pack(side = 'left')
-        self.mutationEntry = tk.Entry(menuWindow, bd = 5).pack(side = 'left')
+        self.mutationEntry = tk.Entry(menuWindow, bd = 5)
+        self.mutationEntry.pack(side = 'left')
 
         selectMap = tk.Button(menuWindow, text = 'SELECT MAP', font = self.fontStyle, bg = 'black', fg = 'white', command = self.getMapfile).pack(side = 'bottom')
         selectWeights = tk.Button(menuWindow, text = 'SELECT WEIGHTS FILE', font = self.fontStyle, bg = 'black', fg = 'white', command = self.loadWeights).pack(side = 'bottom')
 
 
-        startButton = tk.Button(menuWindow, text = 'START', command = self.runSimulation).pack(side = 'bottom')
+        startButton = tk.Button(menuWindow, text = 'START', command = self.runSim).pack(side = 'bottom')
 
 
 
     def getObstacles(self):
         pass
 
-    def runSimulation():
-        pass
-
     def runSim(self):
         mutation = self.mutationEntry.get()
-        if self.mapDirectory == None:
+        if self.MapDict == None:
             messagebox.showinfo("Map not selected","Please select a map before continuing!")
         else:
             try:
-                if mutation == EMPTY_STRING:
+                if mutation == "":
                     raise TypeError
+
                 else:
                     mutation = int(mutation)
                     if 0 > mutation or 100 < mutation:
                         raise ValueError
                     else:
-                        newSimulation = Simulation(self.mapDirectory, mutation, self.Weights)
+                        newSimulation = sim.Simulation(self.MapDict, mutation, self.Weights)
             except ValueError:
                 messagebox.showinfo("ValueError", "Mutation entry must be an integer")
                 self.mutationEntry.delete(0,len(self.mutationEntry.get())) #Clears entry box
             except TypeError:
-                messagebox.showinfo("","Invalid mutation level, Enter again")
+                mutation = 30
+                #messagebox.showinfo("","Invalid mutation level, Enter again")
 
 
     def loadWeights(self):
-        pass
+        file = askopenfilename(initialdir= os.getcwd() + "\\weights", filetypes=(("PKL File", "*.pkl"),("All Files", "*.*")), title = "Choose file")
+        try: 
+            with open(file, 'rb') as pkl_file:
+                self.loadWeights = pickle.load(pkl_file)
+        except:
+            messagebox.showinfo("", "File not retrieved, try again")
+
 
     def getMapfile(self):
         file = askopenfilename(filetypes=(("PKL Files", "*.pkl"),))
         try:
             with open(file, 'rb') as pkl_file:
-                self.mapDirectory = pickle.load(pkl_file)
+                self.MapDict = pickle.load(pkl_file)
         except:
             messagebox.showinfo("Error", "File not found, try again")
 

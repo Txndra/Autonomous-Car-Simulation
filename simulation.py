@@ -1,6 +1,9 @@
 import pygame
 import sys
 from pygame.locals import *
+from pygame import draw
+from pygame import display
+from pygame import *
 import tkinter
 import pickle
 import os
@@ -35,8 +38,12 @@ class Wall(Tile):
 
 class Track(Tile):
     colour = (0,255,255)
+    def __init__(self, x, y):
+        Tile.__init__(self, x, y)
+        self.north = self.east = self.south = self.west = False
+
     def show(self, SCR):
-        pygame.draw.rect(SCR, Wall.colour, (self.x, self.y, Tile.getSize(), Tile.getSize()))
+        pygame.draw.rect(SCR, Track.colour, (self.x, self.y, Tile.getSize(), Tile.getSize()))
         pygame.draw.rect(SCR, (255, 255, 255), (self.x, self.y, Tile.getSize(), Tile.getSize()),1)
 
 
@@ -92,6 +99,16 @@ class Simulation:
 
         self.CHECKPOINTS = self.calcCheckpoints()
         startTile = self.tracks[MapDict["startID"]]
+        frontX = startTile.x + Tile.getSize()*1/3
+        frontY = startTile.y + Tile.getSize()/2
+        self.population = Population(30, (int(frontX), int(frontY)), int(Tile.getSize()*1/3), mutation)
+
+        if loadedWeights is not None:
+            self.population.cars[0].brain.weights1 = loadedWeights[0]
+            self.population.cars[0].brain.weights2 = loadedWeights[1]
+            self.population.cars[0].brain.weights3 = loadedWeights[2]
+        
+        self.animationLoop()
         
 
     def setWindowSize(self, MapDict, devW, devH):
