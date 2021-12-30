@@ -7,6 +7,7 @@ import os
 from tkinter.filedialog import asksaveasfile
 import re #regular expression
 from borderLineGenerator import BorderLineGenerator
+from population import Population
 
 class Tile:
     __size = 10
@@ -87,8 +88,44 @@ class Simulation:
         for t in self.tracks:
             t.show(self.SCR)
 
+        self.lines = BorderLineGenerator(self.tracks, MapDict["rows"], MapDict["columns"], Tile.getSize()).generate()
 
+        self.CHECKPOINTS = self.calcCheckpoints()
         startTile = self.tracks[MapDict["startID"]]
+        
+
+    def setWindowSize(self, MapDict, devW, devH):
+        tileSize = 0
+        while tileSize * ((MapDict["rows"] + 1)) < devH and tileSize * (MapDict["columns"]) < devW:
+            tileSize += 1
+        tileSize -= 1
+        Tile.setSize(tileSize)
+        return (tileSize * MapDict["columns"], tileSize * (MapDict["rows"] + 1))
+
+    def calcCheckpoints(self):
+        checkPoints = []
+        size = Tile.getSize()
+
+        for t in self.tracks:
+            if t.north:
+                northLine = ([(t.x, t.y), (t.x + size, t.y)])
+                if northLine not in checkPoints:
+                    checkPoints.append(northLine)
+            if t.east:
+                eastLine = ([(t.x + size, t.y), (t.x + size, t.y + size)])
+                if eastLine not in checkPoints:
+                    checkPoints.append(eastLine)
+            if t.south:
+                southLine = ([(t.x, t.y + size), (t.x + size, t.y + size)])
+                if southLine not in checkPoints:
+                    checkPoints.append(southLine)
+            if t.west:
+                westLine = ([(t.x, t.y), (t.x, t.y + size)])
+                if westLine not in checkPoints:
+                    checkPoints.append(westLine)
+
+        return checkPoints
+
 
     def generateMap(MapDict):
         rows = MapDict["rows"]
@@ -107,7 +144,7 @@ class Simulation:
         x = 0
         y = 0
         for group in mapRLE2Darray: 
-            for e in range(int(group[0])):
+            for n in range(int(group[0])):
                 if x > Tile.getsize()*(columns - 1):
                     x = 0
                     y += Tile.getsize()
@@ -119,6 +156,46 @@ class Simulation:
 
                 x += Tile.getsize()
         return (walls, tracks)
+
+    def saveWeights(self, weights):
+        root = tkinter.Tk()
+        root.withdraw
+
+        file = asksaveasfile(initialdir= os.getcwd() + "\\weights", mode = 'wb', defaultextension=".pkl")
+
+        if file is None:
+            return pickle.dump(weights, file)
+
+    def animationLoop(self):
+        self.statsPane.show(self.SCR, "", 1) #shows it's the first generation
+
+        while True:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_s and pygame.key.get_mods() and pygame.KMOD_CTRL: 
+                        weights = [self.population.cars[-1].brain.weights1, self.population.cars[-1].brain.weights2, self.population.cars[-1].brain.weights3]
+                        self.saveWeights(weights)
+
+            if self.population.dead:
+                self.population.createNextGeneration()
+                self.statsPane.show(self.SCR, self.population.bestCarFitness, self.population.generation)
+
+            for t in self.tracks:
+                t.show(self.SCR)
+
+            self.population.update(self.lines, self.CHECKPOINTS)
+            self.population.show(self.SCR)
+
+            for c in self.population.cars:
+                if c.framesAlive >= 120 and len(c.collidedCheckPoints) == 0:
+                    c.dead = True
+
+            pygame.display.update()
+            self.fpsClock.tick(60)
+
 
     
 
