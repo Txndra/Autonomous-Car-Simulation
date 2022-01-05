@@ -192,7 +192,7 @@ class Simulation:
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_s and pygame.key.get_mods() and pygame.KMOD_CTRL: 
+                    if event.key == pygame.K_s and pygame.key.get_mods() & pygame.KMOD_CTRL: 
                         weights = [self.population.cars[-1].brain.weights1, self.population.cars[-1].brain.weights2, self.population.cars[-1].brain.weights3]
                         self.saveWeights(weights)
 

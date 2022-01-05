@@ -4,12 +4,12 @@
 #Autonomous car simulation using neural networks and pygame
 
 import sys
-import os
-import tkinter as tk
+import os #to find files
+import tkinter as tk #for display
 from tkinter import messagebox
 import tkinter.font as tkFont
 from tkinter.filedialog import askopenfilename
-import pickle
+import pickle #to save and load map
 from typing import Type #for saving map
 import MapDesign
 import simulation as sim
