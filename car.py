@@ -14,12 +14,12 @@ class Car:
         self.id = Car.idCounter
         Car.idCounter += 1
 
-        self.brain = Neural() # Assigns neural network to car
+        self.brain = Neural() # Instantiates neural network to car
         self.framesAlive = 0
         self.fitness = 0
-        self.dead = False
+        self.dead = False #Boolean to check whether car is dead
 
-        self.bestOfPrevGen = False
+        self.bestOfPrevGen = False #Will be True if car selected has the highest fitness
         self.collidedCheckPoints = []
         #self.sprite = pygame.image.load(r"car.png").convert()
         self.vel = Vector2(1,0)
@@ -43,7 +43,7 @@ class Car:
         brainInput = [b.length/50 for b in self.beams]
         brainInput.append(self.vel.length() / (Car.__SIZE/2))
 
-        (angleChange, acceleration) = self.brain.calculateOutput(brainInput)
+        (angleChange, acceleration) = self.brain.calculateOutput(brainInput) #Uses FF Neural Network to calculate the change in angle and acceleration
         acceleration += 0.5
 
         if (Vector2(self.vel)).length() >= Car.__SIZE/2 and acceleration > 1:
@@ -52,7 +52,7 @@ class Car:
         self.frontPoint = self.nextPoint
 
         if angleChange > 0:
-            self.angle = (self.angle + angleChange) % 360
+            self.angle = (self.angle + angleChange) % 360 #Mods with 360 so the answer is between  0 and 360
         else:
             self.angle = (self.angle + angleChange) % -360
 
@@ -68,6 +68,7 @@ class Car:
 
             b.update(beamOrigin, angleChange, borderLines)
 
+    #draws car
     def show(self, SCR):
         carCol = (221, 160, 221)
         if self.bestOfPrevGen:
