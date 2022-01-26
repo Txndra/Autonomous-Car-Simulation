@@ -28,7 +28,7 @@ class Application(tk.Frame):
         self.master = master
         self.pack()
         self.MapDict = None
-        self.Weights = None
+        self.loadedWeights = None
         self.fontStyle = tkFont.Font(family="Lucida Grande", size=20)
         self.displayMenu()
         global EMPTY_STRING
@@ -109,7 +109,7 @@ class Application(tk.Frame):
                     if 0 > mutation or 100 < mutation:
                         raise ValueError
                     else:
-                        newSimulation = sim.Simulation(self.MapDict, mutation, self.Weights)
+                        newSimulation = sim.Simulation(self.MapDict, mutation, self.loadedWeights)
             except ValueError:
                 messagebox.showinfo("ValueError", "Mutation entry must be an integer")
                 self.mutationEntry.delete(0,len(self.mutationEntry.get())) #Clears entry box

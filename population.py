@@ -127,4 +127,5 @@ class Population:
         for c in self.cars:
             if not c.dead:
                 c.show(SCR)
+        c.show(SCR)
             
