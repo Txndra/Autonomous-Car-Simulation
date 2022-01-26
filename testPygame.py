@@ -1,4 +1,3 @@
-
 import pygame
 from pygame.locals import *
 
@@ -11,8 +10,8 @@ while True:
         if event.type == QUIT:
             pygame.quit()
 
-    window.fill([255,255,255])
-    pygame.draw.rect(window, (10,10,10), Rect((100,300), (20,30)))
+    window.fill([0,0,255])
+    pygame.draw.rect(window, (255,10,10), Rect((100,300), (20,30)))
 
     pygame.display.update()
 

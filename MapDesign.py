@@ -74,7 +74,7 @@ class MapCreation(tk.Frame):
                 self.buttons.append(userButtons(r,c,mapFrame))
 
         #creates the map creator in the correct size
-
+        #options below go into the frame
         startButton = tk.Button(optionsFrame, text = 'PICK START TILE', command = self.startButton).grid(row = 0, column = 0)
         undoButton = tk.Button(optionsFrame, text = 'UNDO', command = self.undo).grid(row = 0, column = 1)
         clearButton = tk.Button(optionsFrame, text = 'CLEAR ALL', command = self.clearMap).grid(row = 1 , column = 0)
@@ -92,6 +92,7 @@ class MapCreation(tk.Frame):
             userButtons.startup = True
 
     def undo(self):
+        #uses Stack commands defined in Stack.py
         try:
         
             returnVal = userButtons.currentStack.pop()

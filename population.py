@@ -5,10 +5,10 @@ import numpy as np
 
 class Population:
     def __init__(self, numCars, frontPoint, carSize, mutationLevel):
-        Car.setSize(carSize)
+        Car.setSize(carSize) #sets size of car
 
-        self.bestCarFitness = 0
-        self.dead = False
+        self.bestCarFitness = 0 #initialises variable for car fitness (so that it can be used for future generations)
+        self.dead = False #Boolean for whether the car is dead or not
         self.startPoint = frontPoint
         self.mutationLevel = mutationLevel
         self.numCars = numCars
@@ -123,9 +123,9 @@ class Population:
             if c.dead == False:
                 self.dead = False
                 break
-    def show(self, SCR):
+    def show(self, screen):
         for c in self.cars:
             if not c.dead:
-                c.show(SCR)
-        c.show(SCR)
+                c.show(screen)
+        c.show(screen)
             
