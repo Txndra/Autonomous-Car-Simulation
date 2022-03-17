@@ -1,3 +1,5 @@
+#Coordinate Toolkit used to navigate cars
+#Uses a range of mathematical calculations including calculating gradients, equations of lines, points of intersections between lines
 class CT:
     def calcGradient(start, end): #Uses start and end of line (both Cartestian) as parameters to calculate gradient
         if start[0] == end[0]: #if line is vertical (x's are same) it will not have gradient (as it's infinity)
