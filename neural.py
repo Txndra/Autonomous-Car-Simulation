@@ -46,7 +46,7 @@ class Neural:
         #This function uses matrix multiplication and the sigmoid function (which ranges from 0 to 1) as the activation function
 
     def sigmoid(self, x):
-        return 1/(1 + np.exp(-x)) #this is the sigmoid function (returns values between 0 and 1). 
+        return 1/(1 + np.exp(-x)) #this is the sigmoid mathematical function (returns values between 0 and 1). 
         #it is just a rescalement and translation of the hyperbolic tan function (e^2x-1)/(e^2x+1)so it ranges from 0 to 1
 
 
