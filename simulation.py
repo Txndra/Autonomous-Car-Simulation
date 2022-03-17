@@ -13,7 +13,7 @@ from population import Population
 
 pygame.init()
 
-class Tile:
+class Tile: #Parent class
     __size = 10 #Pixel size of tile
     tileID = 0
 
@@ -30,7 +30,7 @@ class Tile:
         if Tile.__size is not None:
             Tile.__size = size
 
-class Wall(Tile):
+class Wall(Tile): #Child class which inherites the previous class' attributes and methods
     colour = (255,0,0) #sets clour to red
     def show(self, SCR):
         #subroutine to display wall
@@ -39,7 +39,7 @@ class Wall(Tile):
         pygame.display.update() #updates pygame screen (not working for some reason)
 
 
-class Track(Tile): #same thing but for the tile
+class Track(Tile): #same thing but for the track (another type of tile so Tile is the parent class again
     colour = (0,255,255)
     def __init__(self, x, y):
         Tile.__init__(self, x, y)
