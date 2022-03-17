@@ -1,5 +1,3 @@
-#taken from jason for now
-
 class BorderLineGenerator:
     def __init__(self, tracks, rows, columns, trackSize):
         self.horLines = []
