@@ -1,3 +1,4 @@
+#Technique: stack operations
 class Stack:
     #Just a typical Stack module. This is needed for map creation so the user can have an 'undo' option.
     def __init__(self, maxSize):
