@@ -20,9 +20,9 @@ import threading #Trying to solve tkinter 'Not Responding' problem
 #Design menu created. Imports imported.
 #Quit function completed
 #Map Design function started
-EMPTY_STRING = ''
+EMPTY_STRING = '' #Defined here just to make it easier
 
-class Application(tk.Frame):
+class Application(tk.Frame): #Self created class, a child class of tk.Frame which is imported from Tkinter
     def __init__(self, master = None):
         tk.Frame.__init__(self, master)
         self.master = master
@@ -36,7 +36,7 @@ class Application(tk.Frame):
 
 
 
-    def displayMenu(self):
+    def displayMenu(self): #Simple tkinter GUI creation
         menuTitle = tk.Label(self, text = "Welcome to Sean's Autonomous Car Simulation",
             foreground = "black",
             background = "white",
@@ -47,7 +47,7 @@ class Application(tk.Frame):
         self.obstacles = tk.Button(self, text = 'ADD/REMOVE OBSTACLES', font = self.fontStyle, bg = 'black', fg = 'white', command = self.getObstacles).pack(side = 'top')
         self.quit = tk.Button(self, text = 'QUIT', font = self.fontStyle, bg = 'black', fg = 'white', command = self.master.destroy).pack(side = 'bottom')
 
-    def getMapinfo(self):
+    def getMapinfo(self): #Attribute used to create a new tkinter window to ask for Map dimensions
         sizeWindow = tk.Tk()
         sizeWindow.title("Grid dimensions")
 
@@ -58,7 +58,7 @@ class Application(tk.Frame):
         allez = tk.Button(sizeWindow, text = 'START', bg = 'green', command = self.createMap)
 
         rowMessage.grid(row = 0, column = 0)
-        self.rowInput.grid(row = 0, column = 1) #ctrl C
+        self.rowInput.grid(row = 0, column = 1)
         columnMessage.grid(row = 1, column = 0)
         self.columnInput.grid(row = 1, column = 1)
         allez.grid(row = 2, column = 1)
@@ -71,10 +71,10 @@ class Application(tk.Frame):
     def createMap(self):
 
         root = tk.Tk()
-        try:
+        try: #Exception handling
             MapDesign.MapCreation(int(self.rowInput.get()),int(self.columnInput.get()), master = root) #Grabs values and creates a window
-        except ValueError:
-            root.withdraw() #Doesn't show the window
+        except ValueError: #If the value entered is not an integer or no value has been entered this part of the program will run
+            root.withdraw()
             messagebox.showinfo("Entry error", "Please retry entering values") #messagebox shows message for error
         
 
@@ -109,8 +109,8 @@ class Application(tk.Frame):
                     if 0 > mutation or 100 < mutation:
                         raise ValueError
                     else:
-                        newSimulation = sim.Simulation(self.MapDict, mutation, self.loadedWeights)
-            except ValueError:
+                        newSimulation = sim.Simulation(self.MapDict, mutation, self.loadedWeights) #Instantiates Simulation (concrete class) for it to be run
+            except ValueError: #Separate exception handling code depending on the error
                 messagebox.showinfo("ValueError", "Mutation entry must be an integer")
                 self.mutationEntry.delete(0,len(self.mutationEntry.get())) #Clears entry box
             except TypeError:
@@ -118,7 +118,7 @@ class Application(tk.Frame):
                 #messagebox.showinfo("","Invalid mutation level, Enter again")
 
 
-    def loadWeights(self):
+    def loadWeights(self): #Opens weights file
         file = askopenfilename(initialdir= os.getcwd() + "\\weights", filetypes=(("PKL File", "*.pkl"),("All Files", "*.*")), title = "Choose file")
         try: 
             with open(file, 'rb') as pkl_file:
@@ -127,7 +127,7 @@ class Application(tk.Frame):
             messagebox.showinfo("", "File not retrieved, try again")
 
 
-    def getMapfile(self):
+    def getMapfile(self): #Opens map file
         file = askopenfilename(filetypes=(("PKL Files", "*.pkl"),))
         try:
             with open(file, 'rb') as pkl_file:
