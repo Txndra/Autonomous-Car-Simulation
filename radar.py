@@ -25,9 +25,9 @@ class radars:
         self.calculateBorderIntersection(lines)
         self.length = self.startPoint.distance_to(self.current) #distance_to (from pygame) calculates distance
         
-    def show(self, SCR):
+    def show(self, screen):
         try:
-            pygame.draw.aaline(SCR, radars.colour, self.startPoint, self.current, 1) #blits radars onto screen
+            pygame.draw.aaline(screen, radars.colour, self.startPoint, self.current, 1) #blits radars onto screen
         except:
             print('Must update then show beam to initialise length')
         

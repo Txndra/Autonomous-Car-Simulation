@@ -69,17 +69,17 @@ class Car:
             b.update(beamOrigin, angleChange, borderLines)
 
     #draws car
-    def show(self, SCR):
+    def show(self, screen):
         carCol = (221, 160, 221)
         if self.bestOfPrevGen:
             carCol = (120, 80, 34)
 
-        pygame.draw.polygon(SCR, carCol, (self.leftPoint, self.frontPoint, self.rightPoint))
-        pygame.draw.circle(SCR, (255,255,255), (int(self.frontPoint[0]), int(self.frontPoint[1])), 2)
-        pygame.draw.aaline(SCR, (0, 0, 100), self.frontPoint, self.nextPoint, 1)
+        pygame.draw.polygon(screen, carCol, (self.leftPoint, self.frontPoint, self.rightPoint))
+        pygame.draw.circle(screen, (255,255,255), (int(self.frontPoint[0]), int(self.frontPoint[1])), 2)
+        pygame.draw.aaline(screen, (0, 0, 100), self.frontPoint, self.nextPoint, 1)
 
         for b in self.beams:
-            b.show(SCR)
+            b.show(screen)
 
     def getSize():
         return Car.__SIZE

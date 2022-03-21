@@ -32,10 +32,10 @@ class Tile:
 
 class Wall(Tile):
     colour = (255,0,0) #sets clour to red
-    def show(self, SCR):
+    def show(self, screen):
         #subroutine to display wall
-        pygame.draw.rect(SCR, Wall.colour, (self.x, self.y), Tile.getSize(), Tile.getSize()) #should draw the wall onto SCR(the screen) using the colour
-        pygame.draw.rect(SCR, (255, 255, 255), (self.x, self.y), Tile.getSize(), Tile.getSize(),1)
+        pygame.draw.rect(screen, Wall.colour, (self.x, self.y), Tile.getSize(), Tile.getSize()) #should draw the wall onto screen(the screen) using the colour
+        pygame.draw.rect(screen, (255, 255, 255), (self.x, self.y), Tile.getSize(), Tile.getSize(),1)
         pygame.display.update() #updates pygame screen (not working for some reason)
 
 
@@ -45,9 +45,9 @@ class Track(Tile): #same thing but for the tile
         Tile.__init__(self, x, y)
         self.north = self.east = self.south = self.west = False
 
-    def show(self, SCR):
-        pygame.draw.rect(SCR, Track.colour, (self.x, self.y), Tile.getSize(), Tile.getSize())
-        pygame.draw.rect(SCR, (255, 255, 255), (self.x, self.y), Tile.getSize(), Tile.getSize(),1)
+    def show(self, screen):
+        pygame.draw.rect(screen, Track.colour, (self.x, self.y), Tile.getSize(), Tile.getSize())
+        pygame.draw.rect(screen, (255, 255, 255), (self.x, self.y), Tile.getSize(), Tile.getSize(),1)
         pygame.display.update()
 
 
@@ -61,15 +61,15 @@ class statsBox:
         pygame.font.init() #initialises font
         self.font = pygame.font.SysFont('Comic Sans MS', 10) #sets font
 
-    def show(self, SCR, bestFitness, generationNum): 
+    def show(self, screen, bestFitness, generationNum): 
         #subroutine to show the stats pane
         bestFitnessText = self.font.render("Best fitness: ", + str(bestFitness), False, (0,0,0))
         generationNumtext = self.font.render("Current gen: " + str(generationNum), False, (0,0,0))
 
-        pygame.draw.rect(SCR, (220,220,220), (self.x, self.y), (self.w, self.h))
+        pygame.draw.rect(screen, (220,220,220), (self.x, self.y), (self.w, self.h))
 
-        SCR.blit(bestFitnessText, (self.x + 10, self.y + 10))
-        SCR.blit(generationNumtext, (self.x + 10, self.y + 50))
+        screen.blit(bestFitnessText, (self.x + 10, self.y + 10))
+        screen.blit(generationNumtext, (self.x + 10, self.y + 50))
         pygame.display.update()
 
 class Simulation:
@@ -80,15 +80,15 @@ class Simulation:
 
         (self.W, self.H) = self.setWindowSize(MapDict, (SCREEN_W - 100), (SCREEN_H - 100))
 
-        self.SCR = pygame.display.set_mode((self.W, self.H)) #initialises pygame display under variable SCR
-        self.SCR.set_alpha(0)
+        self.screen = pygame.display.set_mode((self.W, self.H)) #initialises pygame display under variable screen
+        self.screen.set_alpha(0)
 
         pygame.display.set_caption('grid') #caption for window
         self.fpsClock = pygame.time.Clock()
-        self.SCR.fill((0,255,0), rect = None) #screen col
+        self.screen.fill((0,255,0), rect = None) #screen col
 
         #info section
-        pygame.draw.rect(self.SCR, (220,220,220), (0, (self.H - Tile.getSize()), self.W - Tile.getSize()))
+        pygame.draw.rect(self.screen, (220,220,220), (0, (self.H - Tile.getSize()), self.W - Tile.getSize()))
         self.statsPane = statsBox(0, (self.H - Tile.getSize()), self.W - Tile.getSize())
         pygame.display.update()
 
@@ -96,9 +96,9 @@ class Simulation:
         (self.walls, self.tracks) = Simulation.generateMap(MapDict)
 
         for w in self.walls:
-            w.show(self.SCR)
+            w.show(self.screen)
         for t in self.tracks:
-            t.show(self.SCR)
+            t.show(self.screen)
 
         self.lines = BorderLineGenerator(self.tracks, MapDict["rows"], MapDict["columns"], Tile.getSize()).generate()
 
@@ -189,7 +189,7 @@ class Simulation:
             return pickle.dump(weights, file)
 
     def animationLoop(self):
-        self.statsPane.show(self.SCR, "", 1) #shows it's the first generation, no best fitness yet
+        self.statsPane.show(self.screen, "", 1) #shows it's the first generation, no best fitness yet
 
         while True:
             for event in pygame.event.get():
@@ -203,13 +203,13 @@ class Simulation:
 
             if self.population.dead:
                 self.population.createNextGeneration()
-                self.statsPane.show(self.SCR, self.population.bestCarFitness, self.population.generation) #updates stats pane
+                self.statsPane.show(self.screen, self.population.bestCarFitness, self.population.generation) #updates stats pane
 
             for t in self.tracks:
-                t.show(self.SCR)
+                t.show(self.screen)
 
             self.population.update(self.lines, self.CHECKPOINTS)
-            self.population.show(self.SCR)
+            self.population.show(self.screen)
 
             for c in self.population.cars:
                 if c.framesAlive >= 120 and len(c.collidedCheckPoints) == 0:
