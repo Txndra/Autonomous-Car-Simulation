@@ -62,13 +62,14 @@ class statsBox:
 
     def show(self, screen, bestFitness, generationNum): 
         #subroutine to show the stats pane
-        bestFitnessText = self.font.render("Best fitness: ", + str(bestFitness), False, (0,0,0))
+        bestFitnessText = self.font.render("Best fitness: " + str(bestFitness), False, (0,0,0))
         generationNumtext = self.font.render("Current gen: " + str(generationNum), False, (0,0,0))
 
         pygame.draw.rect(screen, (220,220,220), (self.x, self.y, self.w, self.h))
 
         screen.blit(bestFitnessText, (self.x + 10, self.y + 10))
         screen.blit(generationNumtext, (self.x + 10, self.y + 50))
+        pygame.display.update()
         
 
 class Simulation:
@@ -88,7 +89,7 @@ class Simulation:
         self.screen.fill((0,255,0), rect = None) #screen col
 
         #info section
-        pygame.draw.rect(self.screen, (220,220,220), (0, (self.H - Tile.getSize()), self.W, Tile.getSize())) #changed - to ,
+        pygame.draw.rect(self.screen, (220,220,220), (0, (self.H - Tile.getSize()), self.W, Tile.getSize())) #changed - to , (solved black screen error)
         self.statsPane = statsBox(0, (self.H - Tile.getSize()), self.W, Tile.getSize())
         
 
