@@ -84,7 +84,7 @@ class Population:
         newCars[-1].brain.weights1 = bestCar.brain.weights1
         newCars[-1].brain.weights2 = bestCar.brain.weights2
         newCars[-1].brain.weights3 = bestCar.brain.weights3
-        newCars[-1].bestofPrevGen = True
+        newCars[-1].bestOfPrevGen = True
         self.cars = newCars
 
     def update(self, borderLines, checkPoints):

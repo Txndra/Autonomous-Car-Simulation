@@ -39,7 +39,7 @@ class radars:
         horizontalLines = lines[0] #x values on cartesian plane
         verticalLines = lines[1] #y values on cartesian plane
 
-        smallestDistance = 1
+        smallestDistance = 1e9
         smallestIntersect = None
 
         for line in horizontalLines:
@@ -60,6 +60,6 @@ class radars:
 
         try:
             self.current = pygame.math.Vector2(smallestIntersect[0], smallestIntersect[1]) #Vector2 function defines a vector for the intersect (direction and magnitude)
-        except:
+        except TypeError:
             pass
         #if there is no smallest intersect it will pass rather than stop the program.

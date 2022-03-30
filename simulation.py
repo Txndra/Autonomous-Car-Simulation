@@ -11,13 +11,12 @@ from borderLineGenerator import BorderLineGenerator
 from population import Population
 
 
-pygame.init()
 
 class Tile: #Parent class
     __size = 10 #Pixel size of tile
     tileID = 0
 
-    def __init__(self,x,y):
+    def __init__(self, x ,y):
         self.x = x
         self.y = y
         self.tileID = Tile.tileID
@@ -34,9 +33,9 @@ class Wall(Tile): #Child class which inherites the previous class' attributes an
     colour = (255,0,0) #sets clour to red
     def show(self, screen):
         #subroutine to display wall
-        pygame.draw.rect(screen, Wall.colour, (self.x, self.y), Tile.getSize(), Tile.getSize()) #should draw the wall onto screen(the screen) using the colour
-        pygame.draw.rect(screen, (255, 255, 255), (self.x, self.y), Tile.getSize(), Tile.getSize(),1)
-        pygame.display.update() #updates pygame screen (not working for some reason)
+        pygame.draw.rect(screen, Wall.colour, (self.x, self.y, Tile.getSize(), Tile.getSize())) #should draw the wall onto screen(the screen) using the colour
+        pygame.draw.rect(screen, (255, 255, 255), (self.x, self.y, Tile.getSize(), Tile.getSize()),1)
+         #updates pygame screen (not working for some reason)
 
 
 class Track(Tile): #same thing but for the track (another type of tile so Tile is the parent class again
@@ -46,8 +45,8 @@ class Track(Tile): #same thing but for the track (another type of tile so Tile i
         self.north = self.east = self.south = self.west = False
 
     def show(self, screen):
-        pygame.draw.rect(screen, Track.colour, (self.x, self.y), Tile.getSize(), Tile.getSize())
-        pygame.draw.rect(screen, (255, 255, 255), (self.x, self.y), Tile.getSize(), Tile.getSize(),1)
+        pygame.draw.rect(screen, Track.colour, (self.x, self.y, Tile.getSize(), Tile.getSize()))
+        pygame.draw.rect(screen, (255, 255, 255), (self.x, self.y, Tile.getSize(), Tile.getSize()),1)
         pygame.display.update()
 
 
@@ -66,14 +65,15 @@ class statsBox:
         bestFitnessText = self.font.render("Best fitness: ", + str(bestFitness), False, (0,0,0))
         generationNumtext = self.font.render("Current gen: " + str(generationNum), False, (0,0,0))
 
-        pygame.draw.rect(screen, (220,220,220), (self.x, self.y), (self.w, self.h))
+        pygame.draw.rect(screen, (220,220,220), (self.x, self.y, self.w, self.h))
 
         screen.blit(bestFitnessText, (self.x + 10, self.y + 10))
         screen.blit(generationNumtext, (self.x + 10, self.y + 50))
-        pygame.display.update()
+        
 
 class Simulation:
     def __init__(self, MapDict, mutation, loadedWeights):
+        pygame.init()
         SCREEN_W = pygame.display.Info().current_w
         SCREEN_H = pygame.display.Info().current_h
 
@@ -81,16 +81,16 @@ class Simulation:
         (self.W, self.H) = self.setWindowSize(MapDict, (SCREEN_W - 100), (SCREEN_H - 100))
 
         self.screen = pygame.display.set_mode((self.W, self.H)) #initialises pygame display under variable screen
-        self.screen.set_alpha(0)
+        self.screen.set_alpha(0) #alpha value determines transparency
 
         pygame.display.set_caption('grid') #caption for window
         self.fpsClock = pygame.time.Clock()
         self.screen.fill((0,255,0), rect = None) #screen col
 
         #info section
-        pygame.draw.rect(self.screen, (220,220,220), (0, (self.H - Tile.getSize()), self.W - Tile.getSize()))
-        self.statsPane = statsBox(0, (self.H - Tile.getSize()), self.W - Tile.getSize())
-        pygame.display.update()
+        pygame.draw.rect(self.screen, (220,220,220), (0, (self.H - Tile.getSize()), self.W, Tile.getSize())) #changed - to ,
+        self.statsPane = statsBox(0, (self.H - Tile.getSize()), self.W, Tile.getSize())
+        
 
 
         (self.walls, self.tracks) = Simulation.generateMap(MapDict)
@@ -167,16 +167,16 @@ class Simulation:
         y = 0
         for group in mapRLE2Darray: 
             for n in range(int(group[0])):
-                if x > Tile.getsize()*(columns - 1):
+                if x > Tile.getSize()*(columns - 1):
                     x = 0
-                    y += Tile.getsize()
+                    y += Tile.getSize()
 
                 if group[1] == 'W':
                     walls.append(Wall(x,y))
                 elif group[1] == 'T':
                     tracks.append(Track(x,y))
 
-                x += Tile.getsize()
+                x += Tile.getSize()
         return (walls, tracks)
 
     def saveWeights(self, weights):
@@ -195,7 +195,7 @@ class Simulation:
             for event in pygame.event.get():
                 if event.type == QUIT:
                     pygame.quit()
-                    quit()
+                    sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s and pygame.key.get_mods() & pygame.KMOD_CTRL: 
                     weights = [self.population.cars[-1].brain.weights1, self.population.cars[-1].brain.weights2, self.population.cars[-1].brain.weights3]

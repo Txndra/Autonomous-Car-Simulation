@@ -84,6 +84,7 @@ class Car:
 
     def getSize():
         return Car.__SIZE
+        
     def setSize(size):
         Car.__SIZE = size
         

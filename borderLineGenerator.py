@@ -3,6 +3,7 @@ class BorderLineGenerator:
         self.horLines = []
         self.verLines = []
         self.tracks = tracks
+        self.rows = rows
         self.columns = columns
         self.trackSize = trackSize
 
@@ -16,7 +17,7 @@ class BorderLineGenerator:
 
         for t in self.tracks:
 
-            if ((t.tile.ID + 1) % self.columns != 0 ) and self.findTrack(t.tileID + 1):
+            if ((t.tileID + 1) % self.columns != 0 ) and self.findTrack(t.tileID + 1):
                 t.east = True
             if (t.tileID % self.columns !=0) and self.findTrack(t.tileID - 1):
                 t.west = True
@@ -34,7 +35,7 @@ class BorderLineGenerator:
             if not t.west:
                 self.verLines.append((t.y, t.y + self.trackSize, t.x))
             if not t.east:
-                self.verLines.append((t.y, t.y + self.trackSizetrackSize, t.x + self.trackSize))
+                self.verLines.append((t.y, t.y + self.trackSize, t.x + self.trackSize))
 
     def condense(self):
         self.mergeSort(self.verLines, 2)
@@ -52,7 +53,7 @@ class BorderLineGenerator:
         first = 0
         last = len(self.tracks) -1
         while first <= last and not found:
-            midpoint = (first + last)/2
+            midpoint = (first + last)//2
             if self.tracks[midpoint].tileID == ID:
                 found = True
                 index = midpoint
@@ -63,7 +64,7 @@ class BorderLineGenerator:
                     last = midpoint -1
         return found
 
-    def mergeSort(self, mergelist, x):
+    def mergeSort(self, mergelist, x): #recursive mergeSort algorithm
         if len(mergelist) > 1:
             mid = len(mergelist)//2
             lefthalf = mergelist[:mid]
@@ -71,8 +72,8 @@ class BorderLineGenerator:
             self.mergeSort(lefthalf, x)
             self.mergeSort(righthalf, x)
             i = 0
-            j = i
-            k = j
+            j = 0
+            k = 0
 
             while i < len(lefthalf) and j < len(righthalf):
                 if lefthalf[i][x] < righthalf[j][x]:
@@ -112,7 +113,7 @@ class BorderLineGenerator:
 
         return groupedLines
 
-    def adjoin(self, sortedGroups):
+    def adjoin(self, sortedGroups): #Joins up adjacent lines
         adjoinedLines = []
         for group in sortedGroups:
 

@@ -57,5 +57,5 @@ class CT:
                         return intersect
             else:
                 print('line2 must be a horizontal or vertical line, make sure it was passed in correctly')
-            
+        return None
         

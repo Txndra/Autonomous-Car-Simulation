@@ -97,18 +97,15 @@ class Application(tk.Frame):
 
     def runSim(self):
         mutation = self.mutationEntry.get()
-        if self.MapDict == None:
-            messagebox.showinfo("Map not selected","Please select a map before continuing!")
-        else:
+        if self.MapDict is not None:
+            
             try:
                 if mutation == "":
                     raise TypeError
-
+                mutation = int(mutation)
+                if mutation < 0 or mutation > 100:
+                    raise ValueError
                 else:
-                    mutation = int(mutation)
-                    if 0 > mutation or 100 < mutation:
-                        raise ValueError
-                    else:
                         newSimulation = sim.Simulation(self.MapDict, mutation, self.loadedWeights)
             except ValueError:
                 messagebox.showinfo("ValueError", "Mutation entry must be an integer")
@@ -116,6 +113,9 @@ class Application(tk.Frame):
             except TypeError:
                 mutation = 30
                 #messagebox.showinfo("","Invalid mutation level, Enter again")
+        else:
+            messagebox.showinfo("Map not selected","Please select a map before continuing!")
+            
 
 
     def loadWeights(self):
