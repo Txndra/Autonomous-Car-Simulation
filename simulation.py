@@ -58,17 +58,17 @@ class statsBox:
         self.h = h #height
 
         pygame.font.init() #initialises font
-        self.font = pygame.font.SysFont('Comic Sans MS', 10) #sets font
+        self.font = pygame.font.SysFont(None, 10) #sets font
 
     def show(self, screen, bestFitness, generationNum): 
         #subroutine to show the stats pane
-        bestFitnessText = self.font.render("Best fitness: " + str(bestFitness), False, (0,0,0))
-        generationNumtext = self.font.render("Current gen: " + str(generationNum), False, (0,0,0))
+        bestFitnessText = self.font.render("Best fitness: " + str(bestFitness), True, (0,0,0))
+        generationNumtext = self.font.render("Current gen: " + str(generationNum), True, (0,0,0))
 
         pygame.draw.rect(screen, (220,220,220), (self.x, self.y, self.w, self.h))
 
-        screen.blit(bestFitnessText, (self.x + 10, self.y + 10))
-        screen.blit(generationNumtext, (self.x + 10, self.y + 50))
+        screen.blit(bestFitnessText, [self.x + 10, self.y + 10])
+        screen.blit(generationNumtext, [self.x + 10, self.y + 50])
         pygame.display.update()
         
 
