@@ -1,18 +1,29 @@
+# import library here
 import pygame
-from pygame.locals import *
+import time
+import sys
 
+# display init
+display_width = 800
+display_height = 600
+
+# game initialization done
 pygame.init()
 
-window = pygame.display.set_mode([640,600])
+# game display changed
+gameDisplay = pygame.display.set_mode((display_width, display_height))
 
-while True:
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            pygame.quit()
+# init font object with font size 25 
+font = pygame.font.SysFont(None, 25)
 
-    window.fill([0,0,255])
-    pygame.draw.rect(window, (255,10,10), Rect((100,300), (20,30)))
+def message_to_display(msg, color):
+    screen_text = font.render(msg, True, color)
+    gameDisplay.blit(screen_text, [10, 10])
 
-    pygame.display.update()
+message_to_display("You Lose", (255,0,0))
+pygame.display.update()  # VERY IMPORTANT! THIS IS WHAT YOU MISSED!
+time.sleep(3)
 
-
+pygame.quit()
+# you can signoff now, everything looks good!
+quit()
