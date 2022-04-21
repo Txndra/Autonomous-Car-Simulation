@@ -51,7 +51,7 @@ class BorderLineGenerator:
         found = False
         index = -1
         first = 0
-        last = len(self.tracks) -1
+        last = len(self.tracks) - 1
         while first <= last and not found:
             midpoint = (first + last)//2
             if self.tracks[midpoint].tileID == ID:

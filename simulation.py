@@ -62,8 +62,8 @@ class statsBox:
 
     def show(self, screen, bestFitness, generationNum): 
         #subroutine to show the stats pane
-        bestFitnessText = self.font.render("Best fitness: " + str(bestFitness), True, (0,0,0))
-        generationNumtext = self.font.render("Current gen: " + str(generationNum), True, (0,0,0))
+        bestFitnessText = self.font.render("Best fitness: " + str(bestFitness), False, (0,0,0))
+        generationNumtext = self.font.render("Current gen: " + str(generationNum), False, (0,0,0))
         
         
         pygame.draw.rect(screen, (220,220,220), (self.x, self.y, self.w, self.h))
@@ -75,8 +75,8 @@ class statsBox:
         #text_rect.center = (self.x + 10, self.y + 50)
         #screen.blit(generationNumtext, text_rect)
 
-        screen.blit(bestFitnessText, [self.x + 10, self.y + 10])
-        screen.blit(generationNumtext, [self.x + 10, self.y + 50])
+        screen.blit(bestFitnessText, (self.x + 10, self.y + 10))
+        screen.blit(generationNumtext, (self.x + 10, self.y + 50))
         pygame.display.update()
         
 
@@ -87,7 +87,7 @@ class Simulation:
         SCREEN_H = pygame.display.Info().current_h
 
 
-        (self.W, self.H) = self.setWindowSize(MapDict, (SCREEN_W - 100), (SCREEN_H - 100))
+        (self.W, self.H) = self.setWindowSize(MapDict, SCREEN_W - 100, SCREEN_H - 100)
 
         self.screen = pygame.display.set_mode((self.W, self.H)) #initialises pygame display under variable screen
         self.screen.set_alpha(0) #alpha value determines transparency
@@ -190,12 +190,13 @@ class Simulation:
 
     def saveWeights(self, weights):
         root = tkinter.Tk()
-        root.withdraw
+        root.withdraw()
 
         file = asksaveasfile(initialdir= os.getcwd() + "\\weights", mode = 'wb', defaultextension=".pkl")
 
         if file is None:
-            return pickle.dump(weights, file)
+            return 
+        pickle.dump(weights, file)
 
     def animationLoop(self):
         self.statsPane.show(self.screen, "", 1) #shows it's the first generation, no best fitness yet

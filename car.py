@@ -71,7 +71,7 @@ class Car:
 
     #draws car
     def show(self, screen):
-        carCol = (221, 160, 221)
+        carCol = (0, 255, 0)
         if self.bestOfPrevGen:
             carCol = (120, 80, 34)
 

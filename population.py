@@ -16,7 +16,7 @@ class Population:
 
         self.cars = []
 
-        for x in range(numCars):
+        for _ in range(numCars):
             self.cars.append(Car(frontPoint))
 
     def createDistribution(self):
@@ -103,7 +103,7 @@ class Population:
                         for line in verLines:
                             if CT.getIntersectBetweenLineSegments(e, ((line[2],line[0]), (line[2],line[1])) ) is not None:
                                 c.dead = True
-                                c.fitness = c.fitness = int(((len(c.collidedCheckPoints)**7) + 1)/(c.framesAlive))
+                                c.fitness = int(((len(c.collidedCheckPoints)**7) + 1)/(c.framesAlive))
                                 break
             if not c.dead:
                 for e in c.edges:
@@ -127,5 +127,4 @@ class Population:
         for c in self.cars:
             if not c.dead:
                 c.show(screen)
-        c.show(screen)
             
