@@ -1,5 +1,6 @@
 #This program is used to create the radar beams
 import pygame
+import pygame.math
 from pygame.math import Vector2
 import math
 from CT import CT #imports coordinate toolkit from previous python file
@@ -13,7 +14,7 @@ class radars:
         self.end = (start[0] + 3, start[0] + 4) #so the end starts with a length
         self.angle = angle
         self.startPoint = pygame.math.Vector2(start[0], start[1]) #creates vector for start point
-        self.endPoint = pygame.maths.Vector2(start[0] + 50, start[1])
+        self.endPoint = pygame.math.Vector2(start[0] + 50, start[1])
 
     def update(self, startVector, rotation, lines):
         self.startPoint = startVector
