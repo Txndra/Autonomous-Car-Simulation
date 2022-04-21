@@ -88,10 +88,3 @@ class Car:
     def setSize(size):
         Car.__SIZE = size
         
-
-
-
-
-
-
-
