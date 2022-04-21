@@ -64,8 +64,16 @@ class statsBox:
         #subroutine to show the stats pane
         bestFitnessText = self.font.render("Best fitness: " + str(bestFitness), True, (0,0,0))
         generationNumtext = self.font.render("Current gen: " + str(generationNum), True, (0,0,0))
-
+        
+        
         pygame.draw.rect(screen, (220,220,220), (self.x, self.y, self.w, self.h))
+
+        #text_rect = bestFitnessText.get_rect()
+        #text_rect.center = (self.x + 10, self.y + 10)
+        #screen.blit(bestFitnessText, text_rect)
+        #text_rect = generationNumtext.get_rect()
+        #text_rect.center = (self.x + 10, self.y + 50)
+        #screen.blit(generationNumtext, text_rect)
 
         screen.blit(bestFitnessText, [self.x + 10, self.y + 10])
         screen.blit(generationNumtext, [self.x + 10, self.y + 50])

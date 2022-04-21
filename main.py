@@ -108,7 +108,7 @@ class Application(tk.Frame):
                 else:
                         newSimulation = sim.Simulation(self.MapDict, mutation, self.loadedWeights)
             except ValueError:
-                messagebox.showinfo("ValueError", "Mutation entry must be an integer")
+                messagebox.showinfo("ValueError", "Mutation entry invalid. Try again.")
                 self.mutationEntry.delete(0,len(self.mutationEntry.get())) #Clears entry box
             except TypeError:
                 mutation = 30
