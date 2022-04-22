@@ -201,7 +201,6 @@ class Simulation:
 
     def animationLoop(self):
         self.statsPane.show(self.screen, "", 1) #shows it's the first generation, no best fitness yet
-
         while True:
             for event in pygame.event.get():
                 if event.type == QUIT:
