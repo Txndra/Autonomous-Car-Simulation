@@ -73,8 +73,6 @@ class statsBox:
 
         screen.blit(bestFitnessText, (self.x + 10, self.y + 10))
         screen.blit(generationNumtext, (self.x + 10, self.y + 50))
-
-        screen.blit(bestFitnessText, [500, 500])
         #pygame.display.update()
         
 
