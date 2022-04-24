@@ -13,7 +13,7 @@ class Population:
         self.mutationLevel = mutationLevel
         self.numCars = numCars
         self.generation = 1
-
+        #print(self.mutationLevel)
         self.cars = []
 
         for _ in range(numCars):

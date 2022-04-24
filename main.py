@@ -106,7 +106,7 @@ class Application(tk.Frame):
                 if mutation < 0 or mutation > 100:
                     raise ValueError
                 else:
-                    newSimulation = sim.Simulation(self.MapDict, 30, self.loadedWeights)
+                    newSimulation = sim.Simulation(self.MapDict, mutation, self.loadedWeights)
             except ValueError:
                 messagebox.showinfo("ValueError", "Mutation entry invalid.")
                 self.mutationEntry.delete(0,len(self.mutationEntry.get())) #Clears entry box
