@@ -107,7 +107,7 @@ class Simulation:
         self.lines = BorderLineGenerator(self.tracks, MapDict["rows"], MapDict["columns"], Tile.getSize())
         self.lines = self.lines.generate()
         self.CHECKPOINTS = self.calcCheckpoints()
-        startTile = self.tracks[MapDict["startID"]]
+        startTile = self.tracks[MapDict["startingID"]]
         frontX = startTile.x + Tile.getSize()*1/3
         frontY = startTile.y + Tile.getSize()/2
         self.population = Population(30, (int(frontX), int(frontY)), int(Tile.getSize()*1/3), mutation)
@@ -194,7 +194,6 @@ class Simulation:
     def animationLoop(self):
         self.statsPane.show(self.screen, "", 1) #shows it's the first generation, no best fitness yet
         while True:
-            pygame.event.get()
             for event in pygame.event.get():
                 if event.type == QUIT:
                     pygame.quit()
