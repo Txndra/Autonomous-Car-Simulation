@@ -100,6 +100,7 @@ class Application(tk.Frame):
         if self.MapDict is not None: #Ensures a map is selected   
             try:
                 if mutation == "":
+                    print(mutation)
                     raise TypeError
                 mutation = int(mutation)
                 #print(mutation)
@@ -114,8 +115,6 @@ class Application(tk.Frame):
                 messagebox.showinfo("","Invalid mutation level, Enter again")
         else:
             messagebox.showinfo("Map not selected","Please select a map before continuing!")
-            
-
 
     def loadWeights(self):
         file = askopenfilename(initialdir= os.getcwd() + "\\weights", filetypes=(("PKL File", "*.pkl"),("All Files", "*.*")), title = "Choose file")

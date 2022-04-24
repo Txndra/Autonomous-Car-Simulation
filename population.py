@@ -36,7 +36,6 @@ class Population:
                     newWeights[row][weight] = weights1[row][weight]
                 else:
                     newWeights[row][weight] = weights2[row][weight]
-
         return newWeights
 
     def mutate(self, car):

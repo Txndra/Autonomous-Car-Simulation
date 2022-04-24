@@ -18,8 +18,8 @@ class Neural:
         
 
     def calculateOutput(self, inputs):
-        e = np.array([inputs]) #puts inputs into an array
-        output = self.forward(e)[0] #determines outputs
+        X = np.array([inputs]) #puts inputs into an array
+        output = self.forward(X)[0] #determines outputs
         angle = output[0]
         if angle > 0.6:
             angleChange = -2
@@ -33,13 +33,13 @@ class Neural:
         return(angleChange, acceleration)
 
 
-    def forward(self, e):
+    def forward(self, X):
         #Traverses through neural network using matrix multiplication to find an output
-        hidden1 = np.matmul(e, self.weights1)
+        hidden1 = np.matmul(X, self.weights1)
         activated1 = self.sigmoid(hidden1)
-        hidden2 = np.matmul(e, self.weights2)
+        hidden2 = np.matmul(activated1, self.weights2)
         activated2 = self.sigmoid(hidden2)
-        hidden3 = np.matmul(e, self.weights3)
+        hidden3 = np.matmul(activated2, self.weights3)
         activated3 = self.sigmoid(hidden3)
 
         return activated3  

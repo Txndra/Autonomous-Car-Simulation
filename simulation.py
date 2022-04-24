@@ -97,8 +97,6 @@ class Simulation:
         #info section
         pygame.draw.rect(self.screen, (220,220,220), (0, (self.H - Tile.getSize()), self.W, Tile.getSize())) #changed - to , (solved black screen error)
         self.statsPane = statsBox(0, (self.H - Tile.getSize()), self.W, Tile.getSize() )
-        self.statsPane.show(self.screen, "", 1)
-
         (self.walls, self.tracks) = Simulation.generateMap(MapDict)
         for w in self.walls:
             w.show(self.screen)
@@ -211,7 +209,6 @@ class Simulation:
 
             for t in self.tracks:
                 t.show(self.screen)
-
             self.population.update(self.lines, self.CHECKPOINTS)
             self.population.show(self.screen)
 
