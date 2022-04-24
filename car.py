@@ -45,7 +45,7 @@ class Car:
         brainInput.append(self.vel.length() / (Car.__SIZE/2))
 
         (angleChange, acceleration) = self.brain.calculateOutput(brainInput) #Uses FF Neural Network to calculate the change in angle and acceleration
-        acceleration += 0.5
+        acceleration += 1
 
         if (Vector2(self.vel)).length() >= Car.__SIZE/2 and acceleration > 1:
             acceleration = 0
