@@ -48,7 +48,7 @@ class Track(Tile): #same thing but for the track (another type of tile so Tile i
     def show(self, screen):
         pygame.draw.rect(screen, Track.colour, (self.x, self.y, Tile.getSize(), Tile.getSize()))
         pygame.draw.rect(screen, (255, 255, 255), (self.x, self.y, Tile.getSize(), Tile.getSize()),1)
-        pygame.display.update()
+        #pygame.display.update()
 
 
 class statsBox:
@@ -75,7 +75,7 @@ class statsBox:
         screen.blit(generationNumtext, (self.x + 10, self.y + 50))
 
         screen.blit(bestFitnessText, [500, 500])
-        pygame.display.update()
+        #pygame.display.update()
         
 
 class Simulation:

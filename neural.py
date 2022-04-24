@@ -30,7 +30,7 @@ class Neural:
         #changes angle based on the neural network's output for the first output neuron
         acceleration = output[1]
         #acceleration changes based on the second output neuron
-        return(angleChange, acceleration)
+        return(angleChange, acceleration*2)
 
 
     def forward(self, X):
