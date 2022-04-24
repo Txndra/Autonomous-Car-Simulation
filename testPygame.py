@@ -18,7 +18,7 @@ font = pygame.font.SysFont(None, 25)
 
 def message_to_display(msg, color):
     screen_text = font.render(msg, True, color)
-    gameDisplay.blit(screen_text, [10, 10])
+    gameDisplay.blit(screen_text, (10, 10))
 
 message_to_display("You Lose", (255,0,0))
 pygame.display.update()  # VERY IMPORTANT! THIS IS WHAT YOU MISSED!

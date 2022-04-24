@@ -111,8 +111,8 @@ class Application(tk.Frame):
                 messagebox.showinfo("ValueError", "Mutation entry invalid.")
                 self.mutationEntry.delete(0,len(self.mutationEntry.get())) #Clears entry box
             except TypeError:
+                ##messagebox.showinfo("","Invalid mutation level, Enter again")
                 mutation = 30
-                #messagebox.showinfo("","Invalid mutation level, Enter again")
         else:
             messagebox.showinfo("Map not selected","Please select a map before continuing!")
             

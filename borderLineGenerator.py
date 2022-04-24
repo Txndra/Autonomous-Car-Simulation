@@ -10,6 +10,7 @@ class BorderLineGenerator:
     def generate(self):
         self.calculateNeighbours()
         self.calculateBorderLines()
+        #print(self.horLines,'\n\n\n\n', self.verLines)
         self.condense()
         return (self.horLines, self.verLines)
 
@@ -42,7 +43,6 @@ class BorderLineGenerator:
         self.mergeSort(self.horLines, 2)
         self.verLines = self.groupAndSort(self.verLines)
         self.horLines = self.groupAndSort(self.horLines)
-
         self.verLines = self.adjoin(self.verLines)
         self.horLines = self.adjoin(self.horLines)
 
@@ -64,11 +64,11 @@ class BorderLineGenerator:
                     last = midpoint -1
         return found
 
-    def mergeSort(self, mergelist, x): #recursive mergeSort algorithm
-        if len(mergelist) > 1:
-            mid = len(mergelist)//2
-            lefthalf = mergelist[:mid]
-            righthalf = mergelist[mid:]
+    def mergeSort(self, myList, x): #recursive mergeSort algorithm
+        if len(myList) > 1:
+            mid = len(myList)//2
+            lefthalf = myList[:mid]
+            righthalf = myList[mid:]
             self.mergeSort(lefthalf, x)
             self.mergeSort(righthalf, x)
             i = 0
@@ -77,46 +77,47 @@ class BorderLineGenerator:
 
             while i < len(lefthalf) and j < len(righthalf):
                 if lefthalf[i][x] < righthalf[j][x]:
-                    mergelist[k] = lefthalf[i]
+                    myList[k] = lefthalf[i]
                     i += 1
                 else:
-                    mergelist[k] = righthalf[j]
+                    myList[k] = righthalf[j]
                     j += 1
                 k +=1
 
             while i < len(lefthalf):
-                mergelist[k] = lefthalf[i]
+                myList[k] = lefthalf[i]
                 i += 1
                 k += 1
 
             while j < len(righthalf):
-                mergelist[k] = righthalf[j]
+                myList[k] = righthalf[j]
                 j += 1
                 k += 1
+            
+            #print(myList)
 
-    def groupAndSort(self, anArray):
-        #turns 1D array onto 2d array of grouped tuples sorted
+    def groupAndSort(self,anArray):
+        """turns 1d array of sorted tuples by last element into 2D array of grouped tuples sorted"""
         groupedLines = []
-        groupedLine = []
+        groupedLine = []#array of tuples with same last element
         currentLast = anArray[0][-1]
-        for i in anArray:
-            if i[-1] != currentLast:
-                self.mergeSort(groupedLine, 0)
+        for l in anArray:
+            if l[-1] != currentLast:
+                self.mergeSort(groupedLine,0)
                 groupedLines.append(groupedLine)
-                groupedLine = [i]
-                currentLast = i[-1]
+                groupedLine = [l]#clear and add new line
+                currentLast = l[-1]
             else:
-                groupedLine.append[i]
-        self.mergeSort(groupedLine, 0)
+                groupedLine.append(l)
+            #add the last line
+        self.mergeSort(groupedLine,0)
         groupedLines.append(groupedLine)
-        groupedLine = [i]
-
+        groupedLine = [l]
         return groupedLines
 
     def adjoin(self, sortedGroups): #Joins up adjacent lines
         adjoinedLines = []
         for group in sortedGroups:
-
             if len(group) == 1:
                 adjoinedLines.append((group[0][0], group[0][1], group[0][2]))
             else:
@@ -134,6 +135,5 @@ class BorderLineGenerator:
                         end = line[1]
                     if line == group[-1]:
                             adjoinedLines.append((line[0], line[1], constant))
-
+    
         return adjoinedLines
-            

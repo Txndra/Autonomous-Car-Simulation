@@ -59,7 +59,7 @@ class statsBox:
         self.h = h #height
 
         pygame.font.init() #initialises font
-        self.font = pygame.font.SysFont(None, 10) #sets font
+        self.font = pygame.font.SysFont('Irongate', 25) #sets font
 
     def show(self, screen, bestFitness, generationNum): 
         #subroutine to show the stats pane
@@ -69,15 +69,12 @@ class statsBox:
         
         pygame.draw.rect(screen, (220,220,220), (self.x, self.y, self.w, self.h))
 
-        #text_rect = bestFitnessText.get_rect()
-        #text_rect.center = (self.x + 10, self.y + 10)
-        #screen.blit(bestFitnessText, text_rect)
-        #text_rect = generationNumtext.get_rect()
-        #text_rect.center = (self.x + 10, self.y + 50)
-        #screen.blit(generationNumtext, text_rect)
+        
 
         screen.blit(bestFitnessText, (self.x + 10, self.y + 10))
         screen.blit(generationNumtext, (self.x + 10, self.y + 50))
+
+        screen.blit(bestFitnessText, [500, 500])
         pygame.display.update()
         
 
@@ -99,30 +96,25 @@ class Simulation:
 
         #info section
         pygame.draw.rect(self.screen, (220,220,220), (0, (self.H - Tile.getSize()), self.W, Tile.getSize())) #changed - to , (solved black screen error)
-        self.statsPane = statsBox(0, (self.H - Tile.getSize()), self.W, Tile.getSize())
-        
-
+        self.statsPane = statsBox(0, (self.H - Tile.getSize()), self.W, Tile.getSize() )
+        self.statsPane.show(self.screen, "", 1)
 
         (self.walls, self.tracks) = Simulation.generateMap(MapDict)
-
         for w in self.walls:
             w.show(self.screen)
         for t in self.tracks:
             t.show(self.screen)
-
-        self.lines = BorderLineGenerator(self.tracks, MapDict["rows"], MapDict["columns"], Tile.getSize()).generate()
-
+        self.lines = BorderLineGenerator(self.tracks, MapDict["rows"], MapDict["columns"], Tile.getSize())
+        self.lines = self.lines.generate()
         self.CHECKPOINTS = self.calcCheckpoints()
         startTile = self.tracks[MapDict["startID"]]
         frontX = startTile.x + Tile.getSize()*1/3
         frontY = startTile.y + Tile.getSize()/2
         self.population = Population(30, (int(frontX), int(frontY)), int(Tile.getSize()*1/3), mutation)
-
         if loadedWeights is not None:
             self.population.cars[0].brain.weights1 = loadedWeights[0]
             self.population.cars[0].brain.weights2 = loadedWeights[1]
             self.population.cars[0].brain.weights3 = loadedWeights[2]
-        
         self.animationLoop()
         
 
@@ -201,8 +193,8 @@ class Simulation:
 
     def animationLoop(self):
         self.statsPane.show(self.screen, "", 1) #shows it's the first generation, no best fitness yet
-
         while True:
+            pygame.event.get()
             for event in pygame.event.get():
                 if event.type == QUIT:
                     pygame.quit()
@@ -214,7 +206,8 @@ class Simulation:
 
             if self.population.dead:
                 self.population.createNextGeneration()
-                self.statsPane.show(self.screen, self.population.bestCarFitness, self.population.generation) #updates stats pane
+            
+            self.statsPane.show(self.screen, self.population.bestCarFitness, self.population.generation) #updates stats pane
 
             for t in self.tracks:
                 t.show(self.screen)
@@ -228,7 +221,3 @@ class Simulation:
 
             pygame.display.update()
             self.fpsClock.tick(60)
-
-
-    
-
