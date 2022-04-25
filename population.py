@@ -22,7 +22,7 @@ class Population:
     def createDistribution(self):
         distribution = []
         for c in self.cars:
-            for f in range(c.fitness):
+            for f in range(0,c.fitness):
                 distribution.append(c.id)
         return distribution
 
