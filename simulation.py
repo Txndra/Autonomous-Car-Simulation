@@ -201,6 +201,7 @@ class Simulation:
 
             if self.population.dead:
                 print("Dead")
+                print(self.population.bestCarFitness)
                 self.population.createNextGeneration()
             
             self.statsPane.show(self.screen, self.population.bestCarFitness, self.population.generation) #updates stats pane
