@@ -75,8 +75,8 @@ class Car:
         if self.bestOfPrevGen:
             carCol = (0, 255, 0)
 
-        pygame.draw.polygon(screen, carCol, (self.leftPoint, self.frontPoint, self.rightPoint))
-        #pygame.draw.polygon(screen, carCol, (self.frontPoint, ((self.rightPoint+self.leftPoint)/2)), 15)
+        #pygame.draw.polygon(screen, carCol, (self.leftPoint, self.frontPoint, self.rightPoint))
+        pygame.draw.polygon(screen, carCol, (self.frontPoint, ((self.rightPoint+self.leftPoint)/2)), 15)
 
         pygame.draw.circle(screen, (255,255,255), (int(self.frontPoint[0]), int(self.frontPoint[1])), 2)
         pygame.draw.aaline(screen, (0, 0, 100), self.frontPoint, self.nextPoint, 1)
