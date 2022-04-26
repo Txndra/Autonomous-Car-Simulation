@@ -65,7 +65,7 @@ class statsBox:
         #subroutine to show the stats pane
         bestFitnessText = self.font.render("Best fitness: " + str(bestFitness), False, (0,0,0))
         generationNumtext = self.font.render("Current gen: " + str(generationNum), False, (0,0,0))
-        carsLeftText = self.font.render("Cars left: " + str(carsLeft), False, (0,0,0)) #Test 12.2
+        carsLeftText = self.font.render("Cars per gen: " + str(carsLeft), False, (0,0,0)) #Test 12.2
         
         
         pygame.draw.rect(screen, (220,220,220), (self.x, self.y, self.w, self.h))

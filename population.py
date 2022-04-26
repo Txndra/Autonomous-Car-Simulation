@@ -11,12 +11,12 @@ class Population:
         self.dead = False #Boolean for whether the car is dead or not
         self.startPoint = frontPoint
         self.mutationLevel = mutationLevel
-        self.numCars = numCars
+        self.numCars = int(numCars)
         self.generation = 1
         #print(self.mutationLevel)
         self.cars = []
 
-        for _ in range(numCars):
+        for _ in range(int(numCars)):
             self.cars.append(Car(frontPoint))
 
     def createDistribution(self):
