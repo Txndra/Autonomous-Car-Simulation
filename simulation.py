@@ -31,7 +31,7 @@ class Tile: #Parent class
             Tile.__size = size
 
 class Wall(Tile): #Child class which inherites the previous class' attributes and methods
-    colour = (255,255,255) #sets clour to red
+    colour = (245,208,51) #sets clour to red
     def show(self, screen):
         #subroutine to display wall
         pygame.draw.rect(screen, Wall.colour, (self.x, self.y, Tile.getSize(), Tile.getSize())) #should draw the wall onto screen(the screen) using the colour
