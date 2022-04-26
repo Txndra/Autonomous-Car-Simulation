@@ -6,7 +6,7 @@ import math
 from CT import CT #imports coordinate toolkit from previous python file
 
 class radars:
-    colour = (0, 255, 0) # green beams (by choice)
+    colour = (0, 0, 240) # green beams (by choice)
 
     def __init__(self, start, angle):
         self.start = start #returns starting position
