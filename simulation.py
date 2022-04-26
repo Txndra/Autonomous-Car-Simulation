@@ -74,7 +74,7 @@ class statsBox:
 
         screen.blit(bestFitnessText, (self.x + 10, self.y + 10))
         screen.blit(generationNumtext, (self.x + 10, self.y + 50))
-        screen.blit(carsLeftText, (self.x + 50, self.y + 50)) #Test 12.2
+        screen.blit(carsLeftText, (self.x + 150, self.y + 50)) #Test 12.2
         #pygame.display.update()
         
 
