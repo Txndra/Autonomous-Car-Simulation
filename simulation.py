@@ -61,10 +61,11 @@ class statsBox:
         pygame.font.init() #initialises font
         self.font = pygame.font.SysFont('Irongate', 25) #sets font
 
-    def show(self, screen, bestFitness, generationNum): 
+    def show(self, screen, bestFitness, generationNum, carsLeft): 
         #subroutine to show the stats pane
         bestFitnessText = self.font.render("Best fitness: " + str(bestFitness), False, (0,0,0))
         generationNumtext = self.font.render("Current gen: " + str(generationNum), False, (0,0,0))
+        carsLeftText = self.font.render("Cars left: " + str(carsLeft), False, (0,0,0)) #Test 12.2
         
         
         pygame.draw.rect(screen, (220,220,220), (self.x, self.y, self.w, self.h))
@@ -73,6 +74,7 @@ class statsBox:
 
         screen.blit(bestFitnessText, (self.x + 10, self.y + 10))
         screen.blit(generationNumtext, (self.x + 10, self.y + 50))
+        screen.blit(carsLeftText, (self.x + 50, self.y + 50)) #Test 12.2
         #pygame.display.update()
         
 
