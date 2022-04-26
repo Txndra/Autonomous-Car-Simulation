@@ -1,4 +1,4 @@
-from newcar import Car
+from car import Car
 import random
 from CT import CT
 import numpy as np
@@ -121,8 +121,6 @@ class Population:
         for c in self.cars:
             if c.dead == False:
                 self.dead = False
-            if c.dead:
-                c.sprite.kill()
                 break
     def show(self, screen):
         for c in self.cars:

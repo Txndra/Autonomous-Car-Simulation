@@ -31,7 +31,7 @@ class Tile: #Parent class
             Tile.__size = size
 
 class Wall(Tile): #Child class which inherites the previous class' attributes and methods
-    colour = (255,0,0) #sets clour to red
+    colour = (255,255,255) #sets clour to red
     def show(self, screen):
         #subroutine to display wall
         pygame.draw.rect(screen, Wall.colour, (self.x, self.y, Tile.getSize(), Tile.getSize())) #should draw the wall onto screen(the screen) using the colour
@@ -40,7 +40,7 @@ class Wall(Tile): #Child class which inherites the previous class' attributes an
 
 
 class Track(Tile): #same thing but for the track (another type of tile so Tile is the parent class again
-    colour = (0,255,120)
+    colour = (0,0,0)
     def __init__(self, x, y):
         Tile.__init__(self, x, y)
         self.north = self.east = self.south = self.west = False
