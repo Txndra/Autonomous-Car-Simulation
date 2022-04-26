@@ -61,7 +61,7 @@ class statsBox:
         pygame.font.init() #initialises font
         self.font = pygame.font.SysFont('Irongate', 25) #sets font
 
-    def show(self, screen, bestFitness, generationNum, carsLeft): 
+    def show(self, screen, bestFitness, generationNum, carsLeft):
         #subroutine to show the stats pane
         bestFitnessText = self.font.render("Best fitness: " + str(bestFitness), False, (0,0,0))
         generationNumtext = self.font.render("Current gen: " + str(generationNum), False, (0,0,0))
@@ -190,8 +190,12 @@ class Simulation:
         pickle.dump(weights, file)
 
     def animationLoop(self):
-        self.statsPane.show(self.screen, "", 1, self.population.numCars) #shows it's the first generation, no best fitness yet ++ Test 12.2
+        carsLeft = 30
+        self.statsPane.show(self.screen, "", 1, carsLeft) #shows it's the first generation, no best fitness yet ++ Test 12.2
         while True:
+            for c in self.cars:
+                if c.dead:
+                    carsLeft -= 1
             for event in pygame.event.get():
                 if event.type == QUIT:
                     pygame.quit()
