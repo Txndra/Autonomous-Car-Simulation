@@ -80,7 +80,6 @@ class Car:
             carCol = (0, 255, 0)
 
         pygame.draw.polygon(screen, carCol, (self.leftPoint, self.frontPoint, self.rightPoint, (self.leftPoint+self.rightPoint+self.frontPoint)/3))
-        #pygame.draw.polygon(screen, carCol, (self.frontPoint, ((self.rightPoint+self.leftPoint)/2)), 15)
         #screen.blit(self.sprite, self.carCenter)
 
         pygame.draw.circle(screen, (255,255,255), (int(self.frontPoint[0]), int(self.frontPoint[1])), 2)

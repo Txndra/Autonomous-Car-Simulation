@@ -66,7 +66,7 @@ class statsBox:
         bestFitnessText = self.font.render("Best fitness: " + str(bestFitness), False, (0,0,0))
         generationNumtext = self.font.render("Current gen: " + str(generationNum), False, (0,0,0))
         carsLeftText = self.font.render("Cars per gen: " + str(carsLeft), False, (0,0,0)) #Test 12.2
-        
+
         
         pygame.draw.rect(screen, (220,220,220), (self.x, self.y, self.w, self.h))
 
@@ -79,11 +79,12 @@ class statsBox:
         
 
 class Simulation:
-    def __init__(self, MapDict, mutation, loadedWeights):
+    def __init__(self, MapDict, mutation, loadedWeights, carNum):
         pygame.init()
         SCREEN_W = pygame.display.Info().current_w
         SCREEN_H = pygame.display.Info().current_h
 
+        self.carNum = carNum
 
         (self.W, self.H) = self.setWindowSize(MapDict, SCREEN_W - 100, SCREEN_H - 100)
 
@@ -108,7 +109,7 @@ class Simulation:
         startTile = self.tracks[MapDict["startingID"]]
         frontX = startTile.x + Tile.getSize()*1/3
         frontY = startTile.y + Tile.getSize()/2
-        self.population = Population(30, (int(frontX), int(frontY)), int(Tile.getSize()*1/3), mutation)
+        self.population = Population(int(carNum), (int(frontX), int(frontY)), int(Tile.getSize()*1/3), mutation)
         if loadedWeights is not None:
             self.population.cars[0].brain.weights1 = loadedWeights[0]
             self.population.cars[0].brain.weights2 = loadedWeights[1]
@@ -191,7 +192,7 @@ class Simulation:
 
     def animationLoop(self):
         
-        self.statsPane.show(self.screen, "", 1, 30) #shows it's the first generation, no best fitness yet ++ Test 12.2
+        self.statsPane.show(self.screen, "", 1, self.carNum) #shows it's the first generation, no best fitness yet ++ Test 12.2
         while True:
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -207,7 +208,7 @@ class Simulation:
                 print(self.population.bestCarFitness)
                 self.population.createNextGeneration()
             
-            self.statsPane.show(self.screen, self.population.bestCarFitness, self.population.generation, 30) #updates stats pane ++ Test 12.2
+            self.statsPane.show(self.screen, self.population.bestCarFitness, self.population.generation, self.carNum) #updates stats pane ++ Test 12.2
 
             for t in self.tracks:
                 t.show(self.screen)

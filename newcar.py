@@ -1,8 +1,10 @@
+import math
 from numpy.lib.function_base import angle
 from neural import Neural
 import pygame
 from pygame.math import Vector2
 from radar import radars
+import math
 
 class Car:
     #static class variables here
@@ -62,9 +64,18 @@ class Car:
 
         self.leftPoint = self.frontPoint + Vector2(-Car.__SIZE, 0).rotate(30 + self.angle)
         self.rightPoint = self.frontPoint + Vector2(-Car.__SIZE, 0).rotate(-30 + self.angle)
+        #self.sprite = self.rotate_center(self.sprite, self.angle % 360)
         self.carCenter = ((self.frontPoint+self.leftPoint+self.rightPoint)/3)
 
         self.nextPoint = self.frontPoint + Vector2(self.vel * acceleration).rotate(self.angle)
+        self.sprite = self.rotate_center(self.sprite, self.angle % 360)
+
+        '''length = 0.5 * Car.__SIZE
+        left_top = [self.carCenter[0] + math.cos(math.radians(360 - (self.angle + 30))) * length, self.carCenter[1] + math.sin(math.radians(360 - (self.angle + 30))) * length]
+        right_top = [self.carCenter[0] + math.cos(math.radians(360 - (self.angle + 150))) * length, self.carCenter[1] + math.sin(math.radians(360 - (self.angle + 150))) * length]
+        left_bottom = [self.carCenter[0] + math.cos(math.radians(360 - (self.angle + 210))) * length, self.carCenter[1] + math.sin(math.radians(360 - (self.angle + 210))) * length]
+        right_bottom = [self.carCenter[0] + math.cos(math.radians(360 - (self.angle + 330))) * length, self.carCenter[1] + math.sin(math.radians(360 - (self.angle + 330))) * length]
+        self.edges = [left_top, right_top, left_bottom, right_bottom]'''
 
         self.edges = [[self.leftPoint, self.frontPoint], [self.frontPoint, self.rightPoint], [self.rightPoint, self.leftPoint]]
 
@@ -88,6 +99,15 @@ class Car:
 
         for b in self.beams:
             b.show(screen)
+    
+    def rotate_center(self, image, angle):
+        # Rotate The Rectangle
+        rectangle = image.get_rect()
+        rotated_image = pygame.transform.rotate(image, angle/60)
+        rotated_rectangle = rectangle.copy()
+        rotated_rectangle.center = rotated_image.get_rect().center
+        rotated_image = rotated_image.subsurface(rotated_rectangle).copy()
+        return rotated_image
 
     def getSize():
         return Car.__SIZE

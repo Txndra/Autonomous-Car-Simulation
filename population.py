@@ -1,4 +1,4 @@
-from car import Car
+from newcar import Car
 import random
 from CT import CT
 import numpy as np
@@ -58,6 +58,7 @@ class Population:
                     car.brain.weights3[i][j] = np.random.randn()
     
     def createNextGeneration(self):
+        probDistribution = []
         bestCar = self.cars[0]
         for c in self.cars:
             if c.fitness > bestCar.fitness:
@@ -70,11 +71,22 @@ class Population:
         Car.idCounter = 0
         for i in range(self.numCars):
             newCars.append(Car(self.startPoint))
-
-        probDistribution = self.createDistribution()
+        try:
+            probDistribution = self.createDistribution()
+        except:
+            for c in self.cars:
+                for i in range (0, self.cars.fitness):
+                    probDistribution.append(i)
+        #print(probDistribution)
         for c in newCars:
-            parent1 = self.cars[probDistribution[random.randint(0, len(probDistribution) - 1)]]
-            parent2 = self.cars[probDistribution[random.randint(0, len(probDistribution) - 1)]]
+            try:
+                parent1 = self.cars[probDistribution[random.randint(0, len(probDistribution) - 1)]]
+            except:
+                pass
+            try:
+                parent2 = self.cars[probDistribution[random.randint(0, len(probDistribution) - 1)]]
+            except:
+                pass
 
             c.brain.weights1 = Population.crossover(parent1.brain.weights1, parent2.brain.weights1)
             c.brain.weights2 = Population.crossover(parent1.brain.weights2, parent2.brain.weights2)
