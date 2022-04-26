@@ -40,7 +40,7 @@ class Wall(Tile): #Child class which inherites the previous class' attributes an
 
 
 class Track(Tile): #same thing but for the track (another type of tile so Tile is the parent class again
-    colour = (0,255,255)
+    colour = (0,255,120)
     def __init__(self, x, y):
         Tile.__init__(self, x, y)
         self.north = self.east = self.south = self.west = False
