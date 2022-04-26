@@ -190,7 +190,7 @@ class Simulation:
         pickle.dump(weights, file)
 
     def animationLoop(self):
-        self.statsPane.show(self.screen, "", 1) #shows it's the first generation, no best fitness yet
+        self.statsPane.show(self.screen, "", 1, self.population.numCars) #shows it's the first generation, no best fitness yet ++ Test 12.2
         while True:
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -206,7 +206,7 @@ class Simulation:
                 print(self.population.bestCarFitness)
                 self.population.createNextGeneration()
             
-            self.statsPane.show(self.screen, self.population.bestCarFitness, self.population.generation) #updates stats pane
+            self.statsPane.show(self.screen, self.population.bestCarFitness, self.population.generation, self.population.numCars) #updates stats pane ++ Test 12.2
 
             for t in self.tracks:
                 t.show(self.screen)
