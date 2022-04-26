@@ -22,13 +22,16 @@ class Car:
 
         self.bestOfPrevGen = False #Will be True if car selected has the highest fitness
         self.collidedCheckPoints = []
-        #self.sprite = pygame.image.load(r"car.png").convert()
+        self.sprite = pygame.image.load(r"car.png").convert()
+        self.sprite = pygame.transform.scale(self.sprite, (Car.__SIZE, Car.__SIZE))
+    
         self.vel = Vector2(1,0)
         self.nextPoint = frontP + self.vel
 
         self.frontPoint = self.nextPoint#make front of triangle/car
         self.leftPoint = self.frontPoint + Vector2(-Car.__SIZE,0).rotate(30)
         self.rightPoint = self.frontPoint + Vector2(-Car.__SIZE,0).rotate(-30)
+        self.carCenter = ((self.frontPoint+self.leftPoint+self.rightPoint)/3)
         self.angle = 0  
 
         #create beams
@@ -59,6 +62,7 @@ class Car:
 
         self.leftPoint = self.frontPoint + Vector2(-Car.__SIZE, 0).rotate(30 + self.angle)
         self.rightPoint = self.frontPoint + Vector2(-Car.__SIZE, 0).rotate(-30 + self.angle)
+        self.carCenter = ((self.frontPoint+self.leftPoint+self.rightPoint)/3)
 
         self.nextPoint = self.frontPoint + Vector2(self.vel * acceleration).rotate(self.angle)
 
@@ -77,6 +81,7 @@ class Car:
 
         pygame.draw.polygon(screen, carCol, (self.leftPoint, self.frontPoint, self.rightPoint))
         #pygame.draw.polygon(screen, carCol, (self.frontPoint, ((self.rightPoint+self.leftPoint)/2)), 15)
+        #screen.blit(self.sprite, self.carCenter)
 
         pygame.draw.circle(screen, (255,255,255), (int(self.frontPoint[0]), int(self.frontPoint[1])), 2)
         pygame.draw.aaline(screen, (0, 0, 100), self.frontPoint, self.nextPoint, 1)

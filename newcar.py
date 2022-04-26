@@ -3,7 +3,6 @@ from neural import Neural
 import pygame
 from pygame.math import Vector2
 from radar import radars
-import math
 
 class Car:
     #static class variables here
@@ -12,31 +11,33 @@ class Car:
     beamCarOffset = 10
     idCounter = 0
     
-    def __init__(self, frontPoint):
+    def __init__(self, frontP):
         self.id = Car.idCounter
         Car.idCounter += 1
-        self.sprite = pygame.image.load(r"car.png").convert()
-        self.sprite = pygame.transform.scale(self.sprite, (Car.__SIZE, Car.__SIZE))
-        self.sprite.set_colorkey(0,255,120)
-        self.rotatedsprite = self.sprite
-        self.center = [frontPoint[0] + Car.__SIZE/2, frontPoint[1] + Car.__SIZE/2]
+
         self.brain = Neural() # Instantiates neural network to car
         self.framesAlive = 0
         self.fitness = 0
-        self.dead = False#Boolean to check whether car is dead
+        self.dead = False #Boolean to check whether car is dead
 
         self.bestOfPrevGen = False #Will be True if car selected has the highest fitness
         self.collidedCheckPoints = []
-        #self.sprite = pygame.image.load(r"car.png").convert() 
-        self.angle = 0  
+        self.sprite = pygame.image.load(r"car.png").convert()
+        self.sprite = pygame.transform.scale(self.sprite, (Car.__SIZE, Car.__SIZE))
+    
         self.vel = Vector2(1,0)
-        self.nextPoint = frontPoint + self.vel
-        self.frontPoint = self.nextPoint
+        self.nextPoint = frontP + self.vel
+
+        self.frontPoint = self.nextPoint#make front of triangle/car
+        self.leftPoint = self.frontPoint + Vector2(-Car.__SIZE,0).rotate(30)
+        self.rightPoint = self.frontPoint + Vector2(-Car.__SIZE,0).rotate(-30)
+        self.carCenter = (((self.frontPoint[0]+self.leftPoint[0]+self.rightPoint[0])/3),((self.frontPoint[1]+self.leftPoint[1]+self.rightPoint[1])/3))
+        self.angle = 0
+
         #create beams
         self.beams = []
-      
         for a in Car.beamAngles:
-            beamOrigin = self.frontPoint - Vector2(Car.beamCarOffset, 0).rotate(self.angle)
+            beamOrigin = self.carCenter - Vector2(Car.beamCarOffset, 0).rotate(self.angle)
             self.beams.append(radars(beamOrigin, a))
         self.edges = []
 
@@ -59,15 +60,13 @@ class Car:
         else:
             self.angle = (self.angle + angleChange) % -360
 
-        self.rotated_sprite = self.rotate_center(self.sprite, self.angle)
-        length = 0.5 * Car.__SIZE
-        self.nextPoint = self.frontPoint + Vector2(self.vel * acceleration).rotate(self.angle)
-        left_top = [self.center[0] + math.cos(math.radians(360 - (self.angle + 30))) * length, self.center[1] + math.sin(math.radians(360 - (self.angle + 30))) * (0.5* Car.__SIZE)]
-        right_top = [self.center[0] + math.cos(math.radians(360 - (self.angle + 150))) * length, self.center[1] + math.sin(math.radians(360 - (self.angle + 150))) * (0.5* Car.__SIZE)]
-        left_bottom = [self.center[0] + math.cos(math.radians(360 - (self.angle + 210))) * length, self.center[1] + math.sin(math.radians(360 - (self.angle + 210))) * (0.5* Car.__SIZE)]
-        right_bottom = [self.center[0] + math.cos(math.radians(360 - (self.angle + 330))) * length, self.center[1] + math.sin(math.radians(360 - (self.angle + 330))) * (0.5* Car.__SIZE)]
+        self.leftPoint = self.frontPoint + Vector2(-Car.__SIZE, 0).rotate(30 + self.angle)
+        self.rightPoint = self.frontPoint + Vector2(-Car.__SIZE, 0).rotate(-30 + self.angle)
+        self.carCenter = ((self.frontPoint+self.leftPoint+self.rightPoint)/3)
 
-        self.edges = [left_top, right_top, left_bottom, right_bottom]
+        self.nextPoint = self.frontPoint + Vector2(self.vel * acceleration).rotate(self.angle)
+
+        self.edges = [[self.leftPoint, self.frontPoint], [self.frontPoint, self.rightPoint], [self.rightPoint, self.leftPoint]]
 
         for b in self.beams:
             beamOrigin = self.frontPoint - Vector2(Car.beamCarOffset, 0).rotate(self.angle)
@@ -76,8 +75,13 @@ class Car:
 
     #draws car
     def show(self, screen):
-        screen.blit(self.rotated_sprite, self.frontPoint)
+        carCol = (255, 0, 0)
+        if self.bestOfPrevGen:
+            carCol = (0, 255, 0)
+
+        #pygame.draw.polygon(screen, carCol, (self.leftPoint, self.frontPoint, self.rightPoint))
         #pygame.draw.polygon(screen, carCol, (self.frontPoint, ((self.rightPoint+self.leftPoint)/2)), 15)
+        screen.blit(self.sprite, self.carCenter)
 
         pygame.draw.circle(screen, (255,255,255), (int(self.frontPoint[0]), int(self.frontPoint[1])), 2)
         pygame.draw.aaline(screen, (0, 0, 100), self.frontPoint, self.nextPoint, 1)
@@ -85,17 +89,9 @@ class Car:
         for b in self.beams:
             b.show(screen)
 
-    def rotate_center(self, image, Theangle):
-        # Rotate The Rectangle
-        rectangle = image.get_rect()
-        rotated_image = pygame.transform.rotate(image, Theangle)
-        rotated_rectangle = rectangle.copy()
-        rotated_rectangle.center = rotated_image.get_rect().center
-        rotated_image = rotated_image.subsurface(rotated_rectangle).copy()
-        return rotated_image
-
     def getSize():
         return Car.__SIZE
         
     def setSize(size):
         Car.__SIZE = size
+        

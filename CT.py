@@ -12,8 +12,8 @@ class CT:
         return point[1] - (point[0] * m) #rearraged y-y1=m(x-x1) formula
 
     def getIntersect(s1,e1,s2,e2):
-        m1 = CT.calcGradient(s1, e1) #gets gradient for first line
-        m2 = CT.calcGradient(s2, e2) #gets gradient for second line
+        m1 = CT.calcGradient((s1),(e1)) #gets gradient for first line
+        m2 = CT.calcGradient((s2),(e2)) #gets gradient for second line
 
         if m1 != m2: #if not parallel
             if m1 is not None and m2 is not None:#if neither are vertical
