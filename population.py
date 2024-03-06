@@ -1,4 +1,4 @@
-from newcar import Car
+from car import Car
 import random
 from CT import CT
 import numpy as np
