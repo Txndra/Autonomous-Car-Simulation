@@ -79,6 +79,8 @@ class Population:
                     probDistribution.append(i)
         #print(probDistribution)
         for c in newCars:
+            parent1 = None
+            parent2 = None
             try:
                 parent1 = self.cars[probDistribution[random.randint(0, len(probDistribution) - 1)]]
             except:
@@ -88,10 +90,11 @@ class Population:
             except:
                 pass
 
-            c.brain.weights1 = Population.crossover(parent1.brain.weights1, parent2.brain.weights1)
-            c.brain.weights2 = Population.crossover(parent1.brain.weights2, parent2.brain.weights2)
-            c.brain.weights3 = Population.crossover(parent1.brain.weights3, parent2.brain.weights3)
-            self.mutate(c)
+            if parent1 and parent2:
+                c.brain.weights1 = Population.crossover(parent1.brain.weights1, parent2.brain.weights1)
+                c.brain.weights2 = Population.crossover(parent1.brain.weights2, parent2.brain.weights2)
+                c.brain.weights3 = Population.crossover(parent1.brain.weights3, parent2.brain.weights3)
+                self.mutate(c)
         newCars[-1].brain.weights1 = bestCar.brain.weights1
         newCars[-1].brain.weights2 = bestCar.brain.weights2
         newCars[-1].brain.weights3 = bestCar.brain.weights3
