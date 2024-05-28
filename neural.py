@@ -50,4 +50,12 @@ class Neural:
         #it is just a rescalement and translation of the hyperbolic tan function (e^2x-1)/(e^2x+1)so it ranges from 0 to 1
 
 
+    def displaySigmoid(self):
+        x = np.linspace(-10, 10, 100)
+        y = self.sigmoid(x)
+        plt.plot(x, y)
+        plt.show()
 
+
+instance = Neural()
+instance.displaySigmoid()
